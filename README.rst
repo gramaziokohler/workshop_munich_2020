@@ -2,8 +2,6 @@
 Workshop Michigan 24. and 25.02.2020
 ============================================================
 
-This workshop is about robotic assembly using the COMPAS framework.
-
 .. start-badges
 
 .. image:: https://img.shields.io/badge/License-MIT-blue.svg
@@ -16,10 +14,26 @@ This workshop is about robotic assembly using the COMPAS framework.
 
 .. end-badges
 
+This workshop is about robotic assembly using the COMPAS framework.
 
-## Examples
+********
+Overview
+********
 
-### Day 1
+    * COMPAS Introduction
+    * COMPAS exercise
+    * Python & github
+    * Robotic fabrication basics
+    * Robotic assembly excercise
+    
+
+
+********
+Examples
+********
+
+Day 1
+=========
 
 * **Slides**: [session 1](https://docs.google.com/presentation/d/1OIU3vCmwe3lkVWpI0JuJJ-GFoOq5HH8ulElPZNS_F2Y/edit?usp=sharing)
 * **Assignments**: [session 1](assignments/session1.md)
@@ -52,6 +66,7 @@ This workshop is about robotic assembly using the COMPAS framework.
 * [Grasshopper Playground](examples/17_robot_playground_ur5.ghx)
 
 ### Day 2
+=========
 
 * **Slides**:  [session 2](https://docs.google.com/presentation/d/1S29aMP9h4nRvQCdr1jGvp0L4YQCc8q0_irpHb9p9kos/edit?usp=sharing)
 * **Assignments**: [session 2](assignments/session2.md)
@@ -75,16 +90,6 @@ This workshop is about robotic assembly using the COMPAS framework.
 
 
 
-Main features
--------------
-
-* feature
-* feature
-* more features
-
-**workshop_michigan** runs on Python x.x and x.x.
-
-
 Documentation
 -------------
 
@@ -102,13 +107,13 @@ Requirements
 Installation
 ------------
 
-# create environment `workshop`
+Create environment `workshop`
 
 	conda create --name myenv
 
 	conda activate workshop
 
-## Installation
+
 
 We will use the `workshop` environment and update it as follows:
 
