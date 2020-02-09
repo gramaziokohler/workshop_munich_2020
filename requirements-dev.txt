@@ -8,4 +8,9 @@ pylint
 pytest
 isort
 twine
+jupyter
+rise
+pythreejs
+jupyter_contrib_nbextensions
+jupyter_nbextensions_configurator
 -e .
