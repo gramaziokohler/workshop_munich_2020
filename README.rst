@@ -20,11 +20,11 @@ This workshop is about robotic assembly using the COMPAS framework.
 Overview
 ********
 
-    * COMPAS Introduction
-    * COMPAS exercise
-    * Python & github
-    * Robotic fabrication basics
-    * Robotic assembly excercise
+* COMPAS Introduction
+* COMPAS exercise
+* Python & github
+* Robotic fabrication basics
+* Robotic assembly excercise
     
 
 
