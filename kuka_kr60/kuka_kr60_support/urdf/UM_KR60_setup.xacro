@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<!--Generates a urdf from the macro in kr120r2500pro_macro.xacro -->
+<robot name="UM_KR60_setup" xmlns:xacro="http://wiki.ros.org/xacro">
+    <xacro:include filename="$(find kuka_kr60_support)/urdf/kr60_macro.xacro" />
+
+    <link name="world"/>
+    <xacro:kuka_kr60 prefix="left_" link_to="world" xyz_offset="0.0 -2.390051 0.0"/>
+    <xacro:kuka_kr60 prefix="right_" link_to="world" xyz_offset="0.0 0.0 0.0"/>
+
+</robot>

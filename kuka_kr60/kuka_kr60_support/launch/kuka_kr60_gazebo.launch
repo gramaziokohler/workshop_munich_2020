@@ -1,0 +1,60 @@
+<?xml version="1.0" ?>
+
+<launch>
+
+	<!-- WORLD -->
+	<!-- these are the arguments you can pass this launch file, for example paused:=true -->
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="gui" default="true"/>
+  <arg name="headless" default="false"/>
+  <arg name="debug" default="false"/>
+
+	<include file="$(find gazebo_ros)/launch/empty_world.launch">
+	  <arg name="world_name" value="$(find depalletising_manipulation)/worlds/depalletising_world.world"/> 
+    <arg name="debug" value="$(arg debug)" />
+    <arg name="gui" value="$(arg gui)" />
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="headless" value="$(arg headless)"/>
+  </include>
+
+
+	<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find kuka_kr60_support)/urdf/kuka_kr60.urdf'" /> 
+	
+
+
+	<node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+	args="-urdf -model kuka_kr120r2500pro -param robot_description 
+		-J joint_a2 -1.02
+		-J joint_a3  2.37
+		-J joint_a5  0.22 
+		-unpause"/> 
+
+	<rosparam file="$(find kuka_kr60_support)/config/kuka_kr60_control.yaml" command="load"/>
+	<node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+	output="screen" ns="/kuka_kr60" args="
+					  joint_state_controller
+					  joint1_position_controller
+					  joint2_position_controller
+					  joint3_position_controller
+					  joint4_position_controller
+					  joint5_position_controller
+					  joint6_position_controller"/>
+
+</launch>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
