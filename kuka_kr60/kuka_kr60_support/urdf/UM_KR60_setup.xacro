@@ -2,10 +2,22 @@
 
 <!--Generates a urdf from the macro in kr120r2500pro_macro.xacro -->
 <robot name="UM_KR60_setup" xmlns:xacro="http://wiki.ros.org/xacro">
+    <xacro:property name="left_prefix" value="left_" />
+    <xacro:property name="right_prefix" value="right_" />
     <xacro:include filename="$(find kuka_kr60_support)/urdf/kr60_macro.xacro" />
 
     <link name="world"/>
-    <xacro:kuka_kr60 prefix="left_" link_to="world" xyz_offset="0.0 -2.390051 0.0"/>
-    <xacro:kuka_kr60 prefix="right_" link_to="world" xyz_offset="0.0 0.0 0.0"/>
+    <joint name="${left_prefix}grounding" type="fixed">
+        <parent link="world"/>
+	<child link="${left_prefix}base_link"/>
+	<origin xyz="0.0 -2.390051 0.0" rpy="0.0 0.0 0.0"/>
+    </joint>
+    <joint name="${right_prefix}grounding" type="fixed">
+        <parent link="world"/>
+	<child link="${right_prefix}base_link"/>
+	<origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+    </joint>
+    <xacro:kuka_kr60 prefix="${left_prefix}"/>
+    <xacro:kuka_kr60 prefix="${right_prefix}"/>
 
 </robot>
