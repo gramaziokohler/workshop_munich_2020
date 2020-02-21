@@ -1,28 +1,24 @@
 # Workshop Michigan 24. and 25.02.2020
 
-
 This workshop is about robotic assembly using the COMPAS framework.
-
 
 ## Overview
 
-
-* COMPAS Introduction
-* COMPAS exercise
-* Python & github
-* Robotic fabrication basics
-* Robotic assembly excercise
-    
-
-
+* Python programming
+* Code management
+* COMPAS 101
+* COMPAS FAB Intro
+* Kinematics and path planning
+* Attach/detach tools
+* Pick and Place planning
+* Brick assembly
+* Robot control overview
 
 ## Examples
-
 
 ### Day 1
 
 * **Slides**: [session 1](https://docs.google.com/presentation/d/1MwbF9ibyxKD2Nxk989vYtSyW_or0pXSVWBnFI-EQtdM/edit?usp=sharing)
-
 
 * [Docker configuration to launch ROS & MoveIt](docker-ur5/)
 * [Open MoveIt! in your browser](http://localhost:8080/vnc.html?resize=scale&autoconnect=true) (once the UR5 docker compose has been started)
@@ -51,7 +47,6 @@ This workshop is about robotic assembly using the COMPAS framework.
 
 ### Day 2
 
-
 * **Slides**:  [session 2](https://docs.google.com/presentation/d/1QBu-4BhnLEOkrOvZf9PoX-m2dYAtTzfMFgFJ7Bw6VFY/edit#slide=id.g7054e0e0c8_0_5)
 
 * **Jupyter Notebooks**:
@@ -72,36 +67,28 @@ This workshop is about robotic assembly using the COMPAS framework.
   * [Pick and place](examples/045_pick_and_place.py)
   * [Pick and place Stack](examples/046_pick_and_place_stack.py)
 
-
-
 ## Requirements
 
-
-.. Write requirements instructions here
-
+* Minimum OS: Windows 10 Pro or Mac OS Sierra 10.12
+* [Anaconda 3](https://www.anaconda.com/distribution/)
+* [Docker Desktop](https://www.docker.com/products/docker-desktop) Docker Toolbox would also work but it's a bit more annoying. After installation on Windows, it is required to enable "Virtualization" on the BIOS of the computer.
+* [Rhino 6 & Grasshopper](https://www.rhino3d.com/download)
+* [Visual Studio Code](https://code.visualstudio.com/): Any python editor works, but we recommend VS Code + extensions [as mentioned in our docs](https://gramaziokohler.github.io/compas_fab/latest/getting_started.html#working-in-visual-studio-code-1)
 
 ## Installation
 
+Create conda environment:
 
-Create environment `workshop`
-
-	conda create --name myenv
-
-	conda activate workshop
-
-
-We will use the `workshop` environment and update it as follows:
-
-    (base)  conda activate workshop
-    (workshop) conda update compas compas_fab --yes
-    (workshop) python -m compas_fab.rhino.install -v 6.0
+    (base) conda config --add channels conda-forge
+    (base) conda create -n um20 python=3.6 python.app --yes
+    (base) conda activate um20
+    (um20) conda install compas_fab
+    (um20) python -m compas_fab.rhino.install -v 6.0
 
 ## Verify installation
 
-    (workshop) python
+    (um20) python
     >>> import compas_fab
     >>> compas_fab.__version__
-    '0.10.0'
+    '0.10.2'
     >>> exit()
-
-
