@@ -1,14 +1,13 @@
-
 import os
 import sys
 import json
 
+import compas
 from compas.geometry import Translation
 
 HERE = os.path.dirname(__file__)
 DATA = os.path.abspath(os.path.join(HERE, "..", "data"))
 PATH_TO = os.path.join(DATA, os.path.splitext(os.path.basename(__file__))[0] + ".json")
-print(PATH_TO)
 
 from assembly import Element, Assembly
 
@@ -16,7 +15,6 @@ from assembly import Element, Assembly
 settings_file = os.path.join(DATA, "settings.json")
 with open(settings_file, 'r') as f:
     data = json.load(f)
-
 
 # Get from settings
 brick = Element.from_data(data['brick'])
@@ -37,7 +35,6 @@ gap_uneven = (total_length - (BRICKS_PER_COURSE * width))/BRICKS_PER_COURSE
 
 
 for row in range(COURSES):
-
     dy = row * height
     half_brick_ends = row % 2 != 0
     gap = gap_even if row % 2 == 0 else gap_uneven
@@ -52,7 +49,7 @@ for row in range(COURSES):
         is_half_brick = (first or last) and half_brick_ends
 
         if is_half_brick:
-            T = Translation([dx - width/4, 0, dy])
+            T = Translation([dx - width/2, 0, dy])
             assembly.add_element(halfbrick.transformed(T))
             dx += width/2
         else:
@@ -67,3 +64,10 @@ assembly.transform(Translation([-0.26, -0.28, 0]))
 
 # 6. Save assembly to json
 assembly.to_json(PATH_TO)
+
+# Run this in rhino
+if compas.IPY:
+    from assembly.rhino import AssemblyArtist
+    artist = AssemblyArtist(assembly, layer='COMPAS::Assembly')
+    artist.clear_layer()
+    artist.draw()
