@@ -30,10 +30,4 @@ with RosClient('localhost') as client:
     frames_tcf = [Frame((-0.309, -0.046, -0.266), (0.276, 0.926, -0.256), (0.879, -0.136, 0.456))]
     frames_tcf0 = robot.from_attached_tool_to_tool0(frames_tcf)
 
-    time.sleep(2)
-
-    # Now remove it again
-    scene.remove_attached_tool()
-    scene.remove_collision_mesh(tool.name)
-    robot.detach_tool()
     time.sleep(1)
