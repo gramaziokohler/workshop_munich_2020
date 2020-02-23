@@ -1,15 +1,15 @@
 import os
-import sys
 import json
 
 import compas
 from compas.geometry import Translation
+from assembly import Element
+from assembly import Assembly
 
 HERE = os.path.dirname(__file__)
 DATA = os.path.abspath(os.path.join(HERE, "..", "data"))
 PATH_TO = os.path.join(DATA, os.path.splitext(os.path.basename(__file__))[0] + ".json")
 
-from assembly import Element, Assembly
 
 # load settings (shared by GH)
 settings_file = os.path.join(DATA, "settings.json")

@@ -1,6 +1,5 @@
 import os
 import json
-import sys
 import time
 from compas.geometry import Frame
 from compas.geometry import Transformation
@@ -9,11 +8,11 @@ from compas_fab.robots import PlanningScene
 from compas_fab.robots import CollisionMesh
 from compas_fab.robots import AttachedCollisionMesh
 from compas_fab.robots import Tool
+from assembly import Element
 
 HERE = os.path.dirname(__file__)
 DATA = os.path.abspath(os.path.join(HERE, "..", "data"))
 
-from assembly import Element
 
 # load settings (shared by GH)
 settings_file = os.path.join(DATA, "settings.json")

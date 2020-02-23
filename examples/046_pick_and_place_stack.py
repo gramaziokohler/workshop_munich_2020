@@ -1,11 +1,9 @@
 import os
-import sys
 import math
 import time
 import json
 from compas.geometry import Vector
 from compas.geometry import Frame
-from compas.geometry import Box
 from compas.geometry import Transformation, Translation
 from compas_fab.backends import RosClient
 from compas_fab.robots import PlanningScene
@@ -13,6 +11,8 @@ from compas_fab.robots import Configuration
 from compas_fab.robots import Tool
 from compas_fab.robots import AttachedCollisionMesh
 from compas_fab.robots import CollisionMesh
+from assembly import Element
+from assembly import Assembly
 
 HERE = os.path.dirname(__file__)
 DATA = os.path.abspath(os.path.join(HERE, "..", "data"))
@@ -24,7 +24,6 @@ settings_file = os.path.join(DATA, "settings.json")
 with open(settings_file, 'r') as f:
     data = json.load(f)
 
-from assembly import Element, Assembly
 
 # create tool from json
 filepath = os.path.join(DATA, "vacuum_gripper.json")

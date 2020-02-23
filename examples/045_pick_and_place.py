@@ -1,5 +1,4 @@
 import os
-import sys
 import math
 import time
 import json
@@ -12,13 +11,14 @@ from compas_fab.robots import Configuration
 from compas_fab.robots import Tool
 from compas_fab.robots import AttachedCollisionMesh
 from compas_fab.robots import CollisionMesh
+from assembly import Element
+from assembly import Assembly
 
 HERE = os.path.dirname(__file__)
 DATA = os.path.abspath(os.path.join(HERE, "..", "data"))
 PATH_TO = os.path.join(DATA, os.path.splitext(os.path.basename(__file__))[0] + ".json")
 print(PATH_TO)
 
-from assembly import Element, Assembly
 
 # load settings (shared by GH)
 settings_file = os.path.join(DATA, "settings.json")
@@ -130,7 +130,7 @@ with RosClient('localhost') as client:
     scene.append_collision_mesh(brick)
 
     # 5. Add trajectories to element and set to 'planned'
-    elem.trajectory = trajectory1.points + trajectory2.points + trajectory3.points
+    element.trajectory = trajectory1.points + trajectory2.points + trajectory3.points
     assembly.network.set_vertex_attribute(key, 'is_planned', True)
     # ==========================================================================
 
