@@ -10,7 +10,7 @@ from compas_fab.robots import CollisionMesh
 
 HERE = os.path.dirname(__file__)
 DATA = os.path.abspath(os.path.join(HERE, "..", "data"))
-ASSEMBLY_PATH = os.path.abspath(os.path.join(HERE, ".."))
+ASSEMBLY_PATH = os.path.abspath(os.path.join(HERE, "..", "src"))
 sys.path.append(ASSEMBLY_PATH)
 
 from assembly import Element
