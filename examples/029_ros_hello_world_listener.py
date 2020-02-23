@@ -7,7 +7,7 @@ def receive_message(message):
     print('Heard talking: ' + message['data'])
 
 with RosClient('localhost') as client:
-    listener = Topic(client, '/chatter', 'std_msgs/String')
+    listener = Topic(client, '/messages', 'std_msgs/String')
     listener.subscribe(receive_message)
 
     while client.is_connected:
