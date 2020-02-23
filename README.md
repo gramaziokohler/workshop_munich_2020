@@ -108,12 +108,14 @@ This workshop is about robotic assembly using the COMPAS framework.
 Create conda environment:
 
     (base) conda config --add channels conda-forge
-    (base) conda create -n um20 python=3.6 python.app --yes
+    (base) conda create -n um20 python=3.6 compas_fab=0.10 python.app --yes
     (base) conda activate um20
-    (um20) conda install compas_fab
-    (um20) python -m compas_fab.rhino.install -v 6.0
 
-## Verify installation
+Install on Rhino (defaults to 6.0, use `-v 5.0` otherwise):
+
+    (um20) python -m compas_fab.rhino.install
+
+### Verify installation
 
     (um20) python
     >>> import compas_fab
