@@ -19,7 +19,6 @@ with open(settings_file, 'r') as f:
 
 
 # Get from settings
-# Get from settings
 brick = Element.from_data(data['brick'])
 halfbrick = Element.from_data(data['halfbrick'])
 width, length, height = data['brick_dimensions']

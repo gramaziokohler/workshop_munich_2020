@@ -180,7 +180,7 @@ with RosClient('localhost') as client:
         assert(trajectory3.fraction == 1.)
 
         # add trajectories to element and set to 'planned'
-        elem.trajectory = [trajectory1, trajectory2, trajectory3]
+        elem.trajectory = trajectory1.points + trajectory2.points + trajectory3.points
         assembly.network.set_vertex_attribute(key, 'is_planned', True)
         print("Calculated element with key %d" % key)
 

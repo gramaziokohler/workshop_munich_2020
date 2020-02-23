@@ -130,7 +130,7 @@ with RosClient('localhost') as client:
     scene.append_collision_mesh(brick)
 
     # 5. Add trajectories to element and set to 'planned'
-    element.trajectory = [trajectory1, trajectory2, trajectory3]
+    elem.trajectory = trajectory1.points + trajectory2.points + trajectory3.points
     assembly.network.set_vertex_attribute(key, 'is_planned', True)
     # ==========================================================================
 
