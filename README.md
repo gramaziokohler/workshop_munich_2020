@@ -77,11 +77,7 @@ This workshop is about robotic assembly using the COMPAS framework.
 
 * **Slides**:  [session 2](https://docs.google.com/presentation/d/1QBu-4BhnLEOkrOvZf9PoX-m2dYAtTzfMFgFJ7Bw6VFY/edit#slide=id.g7054e0e0c8_0_5)
 
-* **Jupyter Notebooks**:
-  * [Path planning](Path%20planning.ipynb)
-  * [Robotic Assembly](Robotic%20Assembly.ipynb)
-
----
+#### Path planning and assembly processes
 
 * [Docker configuration to launch ROS & MoveIt](docker/docker-ur5/)
 * [Assembly Playground](examples/040_robot_assembly.ghx)

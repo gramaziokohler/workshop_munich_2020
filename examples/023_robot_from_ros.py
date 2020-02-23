@@ -1,3 +1,5 @@
+# Before running this example, make sure to run
+# "docker compose up" on the docker-ur5 file
 import compas
 from compas.robots import RobotModel
 from compas_fab.backends import RosClient
