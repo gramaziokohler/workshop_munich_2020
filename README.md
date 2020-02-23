@@ -111,14 +111,16 @@ Create conda environment:
     (base) conda create -n um20 python=3.6 compas_fab=0.10 python.app --yes
     (base) conda activate um20
 
-Install on Rhino (defaults to 6.0, use `-v 5.0` otherwise):
+### Verify installation
+
+    (um20) pip show compas_fab
+    Name: compas-fab
+    Version: 0.10.2
+    Summary: Robotic fabrication package for the COMPAS Framework
+    ...
+
+### Install on Rhino
 
     (um20) python -m compas_fab.rhino.install
 
-### Verify installation
-
-    (um20) python
-    >>> import compas_fab
-    >>> compas_fab.__version__
-    '0.10.2'
-    >>> exit()
+NOTE: This installs to Rhino 6.0, use `-v 5.0` if needed.
