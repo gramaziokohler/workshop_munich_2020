@@ -232,7 +232,7 @@
   <joint name="left_joint_a6-tool0" type="fixed">
     <parent link="left_link_6"/>
     <child link="left_tool0"/>
-    <origin rpy="0 1.57079632679 0" xyz="0.215 0 0"/>
+    <origin rpy="0 1.57079632679 0" xyz="0.038 0 0"/>
     <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
   </joint>
   <!-- END JOINTS -->
@@ -519,7 +519,7 @@
   <joint name="right_joint_a6-tool0" type="fixed">
     <parent link="right_link_6"/>
     <child link="right_tool0"/>
-    <origin rpy="0 1.57079632679 0" xyz="0.215 0 0"/>
+    <origin rpy="0 1.57079632679 0" xyz="0.038 0 0"/>
     <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
   </joint>
   <!-- END JOINTS -->

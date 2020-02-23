@@ -1,3 +1,5 @@
+"""Transformation examples
+"""
 from compas.geometry import Rotation
 from compas.geometry import Translation
 from compas.geometry import Scale

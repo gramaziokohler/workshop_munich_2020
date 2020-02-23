@@ -241,7 +241,7 @@
     <joint name="${prefix}joint_a6-tool0" type="fixed">
       <parent link="${prefix}link_6"/>
       <child link="${prefix}tool0"/>
-      <origin xyz="0.215 0 0" rpy="0 ${DEG2RAD * 90} 0"/>
+      <origin xyz="0.038 0 0" rpy="0 ${DEG2RAD * 90} 0"/>
 			<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> 
     </joint>
     <!-- END JOINTS -->
