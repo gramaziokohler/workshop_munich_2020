@@ -7,8 +7,6 @@ from compas.geometry import Translation
 
 HERE = os.path.dirname(__file__)
 DATA = os.path.abspath(os.path.join(HERE, "..", "data"))
-ASSEMBLY_PATH = os.path.abspath(os.path.join(HERE, "..", "src"))
-sys.path.append(ASSEMBLY_PATH)
 PATH_TO = os.path.join(DATA, os.path.splitext(os.path.basename(__file__))[0] + ".json")
 print(PATH_TO)
 

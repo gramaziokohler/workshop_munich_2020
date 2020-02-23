@@ -12,8 +12,7 @@ from compas_fab.robots import Tool
 
 HERE = os.path.dirname(__file__)
 DATA = os.path.abspath(os.path.join(HERE, "..", "data"))
-ASSEMBLY_PATH = os.path.abspath(os.path.join(HERE, ".."))
-sys.path.append(ASSEMBLY_PATH)
+
 from assembly import Element
 
 # load settings (shared by GH)

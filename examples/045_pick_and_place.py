@@ -18,9 +18,6 @@ DATA = os.path.abspath(os.path.join(HERE, "..", "data"))
 PATH_TO = os.path.join(DATA, os.path.splitext(os.path.basename(__file__))[0] + ".json")
 print(PATH_TO)
 
-ASSEMBLY_PATH = os.path.abspath(os.path.join(HERE, "..", "src"))
-sys.path.append(ASSEMBLY_PATH)
-
 from assembly import Element, Assembly
 
 # load settings (shared by GH)

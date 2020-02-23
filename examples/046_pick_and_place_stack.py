@@ -16,8 +16,6 @@ from compas_fab.robots import CollisionMesh
 
 HERE = os.path.dirname(__file__)
 DATA = os.path.abspath(os.path.join(HERE, "..", "data"))
-ASSEMBLY_PATH = os.path.abspath(os.path.join(HERE, ".."))
-sys.path.append(ASSEMBLY_PATH)
 PATH_TO = os.path.join(DATA, os.path.splitext(os.path.basename(__file__))[0] + ".json")
 print(PATH_TO)
 
