@@ -48,7 +48,7 @@ This workshop is about robotic assembly using the COMPAS framework.
 
 #### Robot model and ROS
 
-* [Docker configuration to launch ROS & MoveIt](docker-ur5/)
+* [Docker configuration to launch ROS & MoveIt](docker/docker-ur5/)
 * [Open MoveIt! in your browser](http://localhost:8080/vnc.html?resize=scale&autoconnect=true) (once the UR5 docker compose has been started)
 * Basic examples:
   * [Programatically define a robot](examples/021_define_model.py)
@@ -83,7 +83,7 @@ This workshop is about robotic assembly using the COMPAS framework.
 
 ---
 
-* [Docker configuration to launch ROS & MoveIt](docker-ur5/)
+* [Docker configuration to launch ROS & MoveIt](docker/docker-ur5/)
 * [Assembly Playground](examples/040_robot_assembly.ghx)
 * Attaching gripper/tool:
   * [Attach tool to last link of the robot](examples/041_attach_tool.py)
