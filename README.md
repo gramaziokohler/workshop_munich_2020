@@ -80,7 +80,7 @@ This workshop is about robotic assembly using the COMPAS framework.
 #### Path planning and assembly processes
 
 * [Docker configuration to launch ROS & MoveIt](docker/docker-ur5/)
-* [Assembly Playground](examples/040_robot_assembly.ghx)
+* [Assembly Playground](examples/050_robot_assembly.ghx)
 * Attaching gripper/tool:
   * [Attach tool to last link of the robot](examples/041_attach_tool.py)
   * [Plan cartesian motion with attached tool](examples/042_plan_cartesian_motion_with_attached_tool.py)
