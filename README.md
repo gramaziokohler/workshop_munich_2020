@@ -19,6 +19,9 @@ This workshop is about robotic assembly using the COMPAS framework.
 ### Day 1
 
 * **Slides**: [session 1](https://docs.google.com/presentation/d/1MwbF9ibyxKD2Nxk989vYtSyW_or0pXSVWBnFI-EQtdM/edit?usp=sharing)
+* **Documentation**:
+  * [COMPAS API Reference](https://compas-dev.github.io/main/api.html)
+  * [COMPAS FAB API Reference](https://gramaziokohler.github.io/compas_fab/latest/reference.html) 
 
 #### Robotic fundamentals
 
@@ -76,6 +79,9 @@ This workshop is about robotic assembly using the COMPAS framework.
 ### Day 2
 
 * **Slides**:  [session 2](https://docs.google.com/presentation/d/1QBu-4BhnLEOkrOvZf9PoX-m2dYAtTzfMFgFJ7Bw6VFY/edit#slide=id.g7054e0e0c8_0_5)
+* **Documentation**:
+  * [COMPAS API Reference](https://compas-dev.github.io/main/api.html)
+  * [COMPAS FAB API Reference](https://gramaziokohler.github.io/compas_fab/latest/reference.html) 
 
 #### Path planning and assembly processes
 
