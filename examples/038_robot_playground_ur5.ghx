@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <Archive name="Root">
   <!--Grasshopper archive-->
   <!--Grasshopper and GH_IO.dll are copyrighted by Robert McNeel & Associates-->
@@ -4202,7 +4202,7 @@ if robot:
                     <chunk name="ListItem" index="3">
                       <items count="3">
                         <item name="Expression" type_name="gh_string" type_code="10">3</item>
-                        <item name="Name" type_name="gh_string" type_code="10">3 kinetic path</item>
+                        <item name="Name" type_name="gh_string" type_code="10">3 kinematic path</item>
                         <item name="Selected" type_name="gh_bool" type_code="1">true</item>
                       </items>
                     </chunk>
