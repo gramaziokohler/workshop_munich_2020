@@ -1,4 +1,4 @@
-# Workshop TU Münich 2. and 3.03.2020
+# Workshop TU Münich 2. and 3.04.2020
 
 This workshop is about robotic assembly using the COMPAS framework.
 
@@ -110,12 +110,12 @@ This workshop is about robotic assembly using the COMPAS framework.
 Create conda environment:
 
     (base) conda config --add channels conda-forge
-    (base) conda create -n um20 python=3.6 compas_fab=0.10 python.app --yes
-    (base) conda activate um20
+    (base) conda create -n tum20 python=3.6 compas_fab=0.10 python.app --yes
+    (base) conda activate tum20
 
 ### Verify installation
 
-    (um20) pip show compas_fab
+    (tum20) pip show compas_fab
     Name: compas-fab
     Version: 0.10.2
     Summary: Robotic fabrication package for the COMPAS Framework
@@ -123,6 +123,6 @@ Create conda environment:
 
 ### Install on Rhino
 
-    (um20) python -m compas_fab.rhino.install
+    (tum20) python -m compas_fab.rhino.install
 
 NOTE: This installs to Rhino 6.0, use `-v 5.0` if needed.
