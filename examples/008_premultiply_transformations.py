@@ -9,11 +9,11 @@ from compas.geometry import allclose
 p = Point(1, 1, 1)
 
 translation = [1, 2, 3]
-A = Translation(translation)  # create Translation
+A = Translation.from_vector(translation)  # create Translation
 axis, angle = [-0.8, 0.35, 0.5], 2.2
 B = Rotation.from_axis_and_angle(axis, angle)  # create Rotation
 scale_factors = [0.1, 0.3, 0.4]
-C = Scale(scale_factors)  # create Scale
+C = Scale.from_factors(scale_factors)  # create Scale
 
 # Transform p1 one by one
 p1 = p.copy()
