@@ -1,6 +1,7 @@
-# Workshop TU Münich 2. and 3.04.2020
+# Workshop TU Münich 5., 6., and 20.11.2020
 
 This workshop is about robotic assembly using the COMPAS framework.
+
 
 ## Overview
 
@@ -49,7 +50,7 @@ This workshop is about robotic assembly using the COMPAS framework.
   * [Axis-angle example](examples/019_axis_angle.py)
   * [Unit Quaternion example](examples/020_quaternion.py)
 
-#### Robot model and ROS
+#### Robot model and ROS 1
 
 * [Docker configuration to launch ROS & MoveIt](docker/docker-ur5/)
 * [Open MoveIt! in your browser](http://localhost:8080/vnc.html?resize=scale&autoconnect=true) (once the UR5 docker compose has been started)
@@ -60,6 +61,16 @@ This workshop is about robotic assembly using the COMPAS framework.
   * [Visualize robots in Rhino](examples/024_robot_artist_rhino.py)
   * [Visualize robots in Grasshopper](examples/025_robot_artist_grasshopper.ghx)
   * [Build your own robot](examples/026_build_your_own_robot.py)
+
+### Day 2
+
+* **Slides**:  [session 2](https://docs.google.com/presentation/d/1Xbnb7wsjBr_FTUruj6bN0ltFRs4hd55l4udoDYYLtlA/edit?usp=sharing)
+* **Documentation**:
+  * [COMPAS API Reference](https://compas-dev.github.io/main/api.html)
+  * [COMPAS FAB API Reference](https://gramaziokohler.github.io/compas_fab/latest/reference.html) 
+
+#### Robot model and ROS 1
+
 * Basic ROS examples:
   * [Verify connection](examples/027_check_connection.py)
   * The cannonical example of ROS: chatter nodes
@@ -75,13 +86,6 @@ This workshop is about robotic assembly using the COMPAS framework.
     * [Append nested objects to the scene](examples/035_append_collision_meshes.py)
     * [Remove objects from the scene](examples/036_remove_collision_mesh.py)
 * [Grasshopper Playground](examples/038_robot_playground_ur5.ghx)
-
-### Day 2
-
-* **Slides**:  [session 2](https://docs.google.com/presentation/d/1Xbnb7wsjBr_FTUruj6bN0ltFRs4hd55l4udoDYYLtlA/edit?usp=sharing)
-* **Documentation**:
-  * [COMPAS API Reference](https://compas-dev.github.io/main/api.html)
-  * [COMPAS FAB API Reference](https://gramaziokohler.github.io/compas_fab/latest/reference.html) 
 
 #### Path planning and assembly processes
 
@@ -110,7 +114,7 @@ This workshop is about robotic assembly using the COMPAS framework.
 Create conda environment:
 
     (base) conda config --add channels conda-forge
-    (base) conda create -n tum20 python=3.6 compas_fab=0.10 python.app --yes
+    (base) conda create -n tum20 python=3.6 compas_fab=0.13 python.app --yes
     (base) conda activate tum20
 
 ### Verify installation
