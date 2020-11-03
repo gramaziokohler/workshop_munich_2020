@@ -18,9 +18,9 @@ yaxis = Vector(0.1002, 0.8818, 0.4609)
 F = Frame(point, xaxis, yaxis)  # coordinate system F
 P = Point(35., 35., 35.)  # point in F (local coordinates)
 
-P_ = F.to_world_coords(P)  # point in global (world) coordinates
+P_ = F.to_world_coordinates(P)  # point in global (world) coordinates
 print("The point's world coordinates: {}".format(P_))
 
-P2 = F.to_local_coords(P_)
+P2 = F.to_local_coordinates(P_)
 print("The point's local coordinates: {}".format(P2))  # should equal P
 print(allclose(P2, P))

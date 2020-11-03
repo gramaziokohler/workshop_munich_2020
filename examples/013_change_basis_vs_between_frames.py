@@ -24,4 +24,4 @@ print(pt, "==", F2.point)
 # This is how to use Tc: represent geometry in another coordinate frame
 pt = Point(0, 0, 0)  # local point in F1
 pt.transform(Tc)
-print(pt, "==", F2.to_local_coords(F1.point))
+print(pt, "==", F2.to_local_coordinates(F1.point))

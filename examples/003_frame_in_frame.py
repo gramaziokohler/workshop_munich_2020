@@ -15,9 +15,9 @@ yaxis = Vector(-0.631, 0.772, 0.074)
 f_lcf = Frame(point, xaxis, yaxis) # frame f_lcf in F0 (local coordinates)
 
 # frame in global (world) coordinate system
-f_wcf = F0.to_world_coords(f_lcf)
+f_wcf = F0.to_world_coordinates(f_lcf)
 print(f_wcf)
 
-f_lcf2 = F0.to_local_coords(f_wcf) # world coords back to local coords
+f_lcf2 = F0.to_local_coordinates(f_wcf) # world coords back to local coords
 print(f_lcf2) # should equal f_lcf
 print(f_lcf == f_lcf2)

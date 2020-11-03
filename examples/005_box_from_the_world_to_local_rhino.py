@@ -16,7 +16,7 @@ box = Box(frame, width, length, height)
 F = Frame([2, 2, 2], [0.978, 0.010, -0.210], [0.090, 0.882, 0.463])
 
 # Represent box frame in frame F and construct new box
-box_frame_transformed = F.to_world_coords(box.frame)
+box_frame_transformed = F.to_world_coordinates(box.frame)
 box_transformed = Box(box_frame_transformed, width, length, height)
 print("Box frame transformed:", box_transformed.frame)
 

@@ -1635,7 +1635,7 @@ if robot and configuration:
         frames = robot.transformed_frames(configuration)
 
     ee_frame_RCF = robot.forward_kinematics(configuration, backend='model')
-    ee_frame = robot.to_world_coords(ee_frame_RCF)
+    ee_frame = robot.to_world_coordinates(ee_frame_RCF)
     ee_plane = draw_frame(ee_frame)
 
     print("End-effector frame:")
@@ -5037,7 +5037,7 @@ robot = st[robot_key]
 if robot and robot.client and robot.client.is_connected and configuration:
     configuration = robot.get_group_configuration(group, configuration)
     frame_RCF = robot.forward_kinematics(configuration, group, backend='model')
-    frame_WCF = robot.to_world_coords(frame_RCF, group)
+    frame_WCF = robot.to_world_coordinates(frame_RCF, group)
     print frame_WCF
 
 
