@@ -127,6 +127,6 @@ Create conda environment:
 
 ### Install on Rhino
 
-    (tum20) python -m compas_fab.rhino.install
+    (tum20) python -m compas_rhino.install
 
 NOTE: This installs to Rhino 6.0, use `-v 5.0` if needed.
