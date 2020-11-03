@@ -121,12 +121,12 @@ Create conda environment:
 
     (tum20) pip show compas_fab
     Name: compas-fab
-    Version: 0.10.2
+    Version: 0.13.0
     Summary: Robotic fabrication package for the COMPAS Framework
     ...
 
 ### Install on Rhino
 
-    (tum20) python -m compas_fab.rhino.install
+    (tum20) python -m compas_rhino.install
 
 NOTE: This installs to Rhino 6.0, use `-v 5.0` if needed.
