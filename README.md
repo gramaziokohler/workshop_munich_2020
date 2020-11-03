@@ -1,4 +1,4 @@
-# Workshop TU Münich 5., 6., and 20.11.2020
+# Workshop TU Munich 5., 6., and 20.11.2020
 
 This workshop is about robotic assembly using the COMPAS framework.
 
