@@ -3,9 +3,8 @@ system and view in Rhino.
 """
 from compas.geometry import Frame
 from compas.geometry import Box
-from compas.datastructures import Mesh
 from compas_rhino.artists import FrameArtist
-from compas_rhino.artists import MeshArtist
+from compas_rhino.artists import BoxArtist
 
 # Box in the world coordinate system
 frame = Frame([1, 0, 0], [-0.45, 0.1, 0.3], [1, 0, 0])
@@ -22,12 +21,12 @@ print("Box frame transformed:", box_transformed.frame)
 
 # create artists
 artist1 = FrameArtist(Frame.worldXY())
-artist2 = MeshArtist(Mesh.from_shape(box))
+artist2 = BoxArtist(box)
 artist3 = FrameArtist(F)
-artist4 = MeshArtist(Mesh.from_shape(box_transformed))
+artist4 = BoxArtist(box_transformed)
 
 # draw
 artist1.draw()
-artist2.draw_faces()
+artist2.draw()
 artist3.draw()
-artist4.draw_faces()
+artist4.draw()
