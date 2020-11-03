@@ -2,7 +2,6 @@
 
 This workshop is about robotic assembly using the COMPAS framework.
 
-
 ## Overview
 
 * Python programming
@@ -52,10 +51,10 @@ This workshop is about robotic assembly using the COMPAS framework.
 
 #### Robot model and ROS 1
 
-* [Docker configuration to launch ROS & MoveIt](docker/docker-ur5/)
-* [Open MoveIt! in your browser](http://localhost:8080/vnc.html?resize=scale&autoconnect=true) (once the UR5 docker compose has been started)
+* [Docker configuration to launch ROS & MoveIt](docker/docker-ur10e/)
+* [Open MoveIt! in your browser](http://localhost:8080/vnc.html?resize=scale&autoconnect=true) (once the UR10e docker compose has been started)
 * Basic examples:
-  * [Programatically define a robot](examples/021_define_model.py)
+  * [Programmatically define a robot](examples/021_define_model.py)
   * [Load robots from Github](examples/022_robot_from_github.py)
   * [Load robots from ROS](examples/023_robot_from_ros.py)
   * [Visualize robots in Rhino](examples/024_robot_artist_rhino.py)
@@ -76,7 +75,7 @@ This workshop is about robotic assembly using the COMPAS framework.
   * The cannonical example of ROS: chatter nodes
     * [Talker node](examples/028_ros_hello_world_talker.py)
     * [Listener node](examples/029_ros_hello_world_listener.py)
-* Examples of ROS & MoveIt planning with UR5:
+* Examples of ROS & MoveIt planning with UR10e:
   * [Forward Kinematics](examples/030_forward_kinematics_ros_loader.py)
   * [Inverse Kinematics](examples/031_inverse_kinematics_ros_loader.py)
   * [Cartesian motion planning](examples/032_plan_cartesian_motion_ros_loader.py)
@@ -89,7 +88,7 @@ This workshop is about robotic assembly using the COMPAS framework.
 
 #### Path planning and assembly processes
 
-* [Docker configuration to launch ROS & MoveIt](docker/docker-ur5/)
+* [Docker configuration to launch ROS & MoveIt](docker/docker-ur10e/)
 * [Assembly Playground](examples/050_robot_assembly.ghx)
 * Attaching gripper/tool:
   * [Attach tool to last link of the robot](examples/041_attach_tool.py)
@@ -114,7 +113,7 @@ This workshop is about robotic assembly using the COMPAS framework.
 Create conda environment:
 
     (base) conda config --add channels conda-forge
-    (base) conda create -n tum20 python=3.6 compas_fab=0.13 python.app --yes
+    (base) conda create -n tum20 python=3.8 compas_fab=0.13 python.app --yes
     (base) conda activate tum20
 
 ### Verify installation

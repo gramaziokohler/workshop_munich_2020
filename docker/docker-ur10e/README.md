@@ -1,6 +1,6 @@
-# Docker compose: UR5 by Universal Robots
+# Docker compose: UR10e by Universal Robots
 
-The `docker-compose.yml` file in this folder defines all required containers to execute ROS, MoveIt! and the description models of a UR5.
+The `docker-compose.yml` file in this folder defines all required containers to execute ROS, MoveIt! and the description models of a UR10e.
 
 To start it up there are two options:
 
