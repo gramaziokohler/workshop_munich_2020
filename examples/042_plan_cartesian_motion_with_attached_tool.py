@@ -33,7 +33,7 @@ with RosClient('localhost') as client:
 
     trajectory = robot.plan_cartesian_motion(frames_tool0,
                                              start_configuration,
-                                             max_step=0.01)
+                                             options=dict(max_step=0.01))
 
     print("Computed cartesian path with %d configurations, " % len(trajectory.points))
     print("following %d%% of requested trajectory." % (trajectory.fraction * 100))
