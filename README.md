@@ -52,7 +52,8 @@ This workshop is about robotic assembly using the COMPAS framework.
 #### Robot model and ROS 1
 
 * [Docker configuration to launch ROS & MoveIt](docker/)
-* [Open MoveIt! in your browser](http://localhost:8080/vnc.html?resize=scale&autoconnect=true) (once the UR10e docker compose has been started)
+* Open MoveIt! in your browser:
+  * `http://localhost:8080/vnc.html?resize=scale&autoconnect=true`
 * Basic examples:
   * [Programmatically define a robot](examples/021_define_model.py)
   * [Load robots from Github](examples/022_robot_from_github.py)
@@ -65,8 +66,8 @@ This workshop is about robotic assembly using the COMPAS framework.
 
 * **Slides**:  [session 2](https://docs.google.com/presentation/d/1Xbnb7wsjBr_FTUruj6bN0ltFRs4hd55l4udoDYYLtlA/edit?usp=sharing)
 * **Documentation**:
-  * [COMPAS API Reference](https://compas-dev.github.io/main/api.html)
-  * [COMPAS FAB API Reference](https://gramaziokohler.github.io/compas_fab/latest/reference.html) 
+  * [COMPAS API Reference](https://compas.dev/compas/latest/api.html)
+  * [COMPAS FAB API Reference](https://gramaziokohler.github.io/compas_fab/latest/reference.html)
 
 #### Robot model and ROS 1
 
