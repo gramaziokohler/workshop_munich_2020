@@ -18,7 +18,7 @@ This workshop is about robotic assembly using the COMPAS framework.
 
 * **Slides**: [session 1](https://docs.google.com/presentation/d/1nexXDZrQxwgEsNyjcaFsndLgY3z8m6igXAWk9GWiQAg/edit?usp=sharing)
 * **Documentation**:
-  * [COMPAS API Reference](https://compas-dev.github.io/main/api.html)
+  * [COMPAS API Reference](https://compas.dev/compas/latest/api.html)
   * [COMPAS FAB API Reference](https://gramaziokohler.github.io/compas_fab/latest/reference.html)
 
 #### Robotic fundamentals
