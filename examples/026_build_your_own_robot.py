@@ -7,7 +7,7 @@ from compas.geometry import Plane
 from compas.geometry import Translation
 from compas.robots import Joint
 from compas.robots import RobotModel
-from compas_fab.rhino import RobotArtist
+from compas_rhino.artists import RobotModelArtist
 from compas_fab.robots import Configuration
 
 # create cylinder in yz plane
@@ -38,7 +38,7 @@ link2 = robot.add_link("link2", visual_mesh=mesh, visual_color=(0.5, 0.6, 0.2))
 origin = Frame((length, 0, 0), (1, 0, 0), (0, 1, 0))
 robot.add_joint("joint2", Joint.CONTINUOUS, link1, link2, origin, axis)
 
-artist = RobotArtist(robot)
+artist = RobotModelArtist(robot)
 
 # Exercise: Update the robot's configuration
 artist.update...
