@@ -83,7 +83,7 @@ This workshop is about robotic assembly using the COMPAS framework.
     * [Add objects to the scene](examples/034_add_collision_mesh.py)
     * [Append nested objects to the scene](examples/035_append_collision_meshes.py)
     * [Remove objects from the scene](examples/036_remove_collision_mesh.py)
-* [Grasshopper Playground](examples/038_robot_playground_ur5.ghx)
+* [Grasshopper Playground](examples/038_robot_playground.ghx)
 
 #### Path planning and assembly processes
 
