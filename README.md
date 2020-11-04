@@ -109,9 +109,21 @@ This workshop is about robotic assembly using the COMPAS framework.
 
 ## Installation
 
-Create conda environment:
+We use `conda` to make sure we have clean, isolated environment for dependencies.
+
+First time using `conda`? Make sure you run this at least once:
 
     (base) conda config --add channels conda-forge
+
+Create a new conda environment:
+
+**Windows**
+
+    (base) conda create -n tum20 python=3.8 compas_fab=0.13 --yes
+    (base) conda activate tum20
+
+**Mac**
+
     (base) conda create -n tum20 python=3.8 compas_fab=0.13 python.app --yes
     (base) conda activate tum20
 
