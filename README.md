@@ -4,8 +4,6 @@ This workshop is about robotic assembly using the COMPAS framework.
 
 ## Overview
 
-* Python programming
-* Code management
 * COMPAS 101
 * COMPAS FAB Intro
 * Kinematics and path planning
