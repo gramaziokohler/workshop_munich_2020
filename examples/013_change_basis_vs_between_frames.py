@@ -10,7 +10,7 @@ F2 = Frame([1, 1, 1], [0.68, 0.68, 0.27], [-0.67, 0.73, -0.15])
 # transformation between 2 frames F1, F2
 Tf = Transformation.from_frame_to_frame(F1, F2)
 # change-basis transformation between two frames F1 and F2.
-Tc = Transformation.change_basis(F1, F2)
+Tc = Transformation.from_change_of_basis(F1, F2)
 
 # they are different
 print(Tf)
