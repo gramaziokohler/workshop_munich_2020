@@ -7,7 +7,7 @@ from compas.geometry import Scale
 
 R = Rotation.from_axis_and_angle([0, 0, 1], math.radians(30))
 T = Translation.from_vector([2, 0, 0])
-S = Scale.from_scale_factors([0.5] * 3)
+S = Scale.from_factors([0.5] * 3)
 X1 = S * T * R
 X2 = R * T * S
 
