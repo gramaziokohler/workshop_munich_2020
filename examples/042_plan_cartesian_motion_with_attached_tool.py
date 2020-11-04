@@ -29,7 +29,7 @@ with RosClient('localhost') as client:
     frames = [picking_frame, savelevel_picking_frame]
 
     # 4. Convert frames to tool0_frames
-    frames_tool0 = robot.from_attached_tool_to_tool0(frames)
+    frames_tool0 = robot.from_tcf_to_t0cf(frames)
 
     trajectory = robot.plan_cartesian_motion(frames_tool0,
                                              start_configuration,

@@ -9970,7 +9970,7 @@ scene = st[scene_key]</item>
                     <item name="CodeInput" type_name="gh_string" type_code="10">import math
 from compas.geometry import Frame
 
-target_frame_tool0 = robot.from_attached_tool_to_tool0([savelevel_target_frame])[0]
+target_frame_tool0 = robot.from_tcf_to_t0cf([savelevel_target_frame])[0]
 
 tolerances_axes = [math.radians(tolerance_xaxis_deg), math.radians(tolerance_yaxis_deg), math.radians(tolerance_zaxis_deg)]
 
@@ -12688,7 +12688,7 @@ tool = Tool(ee_mesh, ee_frame)</item>
                   <items count="11">
                     <item name="CodeInput" type_name="gh_string" type_code="10">from compas.geometry import Frame
 frame = Frame(plane.Origin, plane.XAxis, plane.YAxis)
-frame = robot.from_attached_tool_to_tool0([frame])[0]</item>
+frame = robot.from_tcf_to_t0cf([frame])[0]</item>
                     <item name="Description" type_name="gh_string" type_code="10">GhPython provides a Python script component</item>
                     <item name="EditorLocation" type_name="gh_drawing_point" type_code="30">
                       <X>208</X>
@@ -13752,7 +13752,7 @@ M = artist.draw_mesh()
                   <items count="11">
                     <item name="CodeInput" type_name="gh_string" type_code="10">from compas.geometry import Frame
 
-frames_tool0 = robot.from_attached_tool_to_tool0(frames)</item>
+frames_tool0 = robot.from_tcf_to_t0cf(frames)</item>
                     <item name="Description" type_name="gh_string" type_code="10">GhPython provides a Python script component</item>
                     <item name="EditorLocation" type_name="gh_drawing_point" type_code="30">
                       <X>104</X>
@@ -16112,7 +16112,7 @@ if response:
                   <items count="11">
                     <item name="CodeInput" type_name="gh_string" type_code="10">from compas.geometry import Frame
 
-frames_tool0 = robot.from_attached_tool_to_tool0(frames)</item>
+frames_tool0 = robot.from_tcf_to_t0cf(frames)</item>
                     <item name="Description" type_name="gh_string" type_code="10">GhPython provides a Python script component</item>
                     <item name="EditorLocation" type_name="gh_drawing_point" type_code="30">
                       <X>104</X>
@@ -20314,7 +20314,7 @@ if robot and robot.client and robot.client.is_connected:
 
     picking_frame_tolerance = picking_frame.copy()
     picking_frame_tolerance.point += tolerance_vector
-    frame_tool0 = robot.from_attached_tool_to_tool0([picking_frame_tolerance])[0]
+    frame_tool0 = robot.from_tcf_to_t0cf([picking_frame_tolerance])[0]
     picking_configuration = robot.inverse_kinematics(frame_tool0, picking_configuration)
     print("Setting new picking configuration:")
     print(picking_configuration)

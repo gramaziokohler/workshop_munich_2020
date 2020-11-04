@@ -13,7 +13,7 @@ def show_trajectory(trajectory):
         velocities.append(p.velocities)
         accelerations.append(p.accelerations)
         time_from_start.append(p.time_from_start.seconds)
-    
+
     plt.rcParams['figure.figsize'] = [17, 4]
     plt.subplot(131)
     plt.title('positions')
@@ -45,9 +45,9 @@ def plan_picking_motion(robot, picking_frame, savelevel_picking_frame, start_con
 
     # Calculate frames at tool0 and picking_configuration
     frames = [picking_frame, savelevel_picking_frame]
-    frames_tool0 = robot.from_attached_tool_to_tool0(frames)
+    frames_tool0 = robot.from_tcf_to_t0cf(frames)
 
-    picking_frame_tool0 = robot.from_attached_tool_to_tool0([picking_frame])[0]
+    picking_frame_tool0 = robot.from_tcf_to_t0cf([picking_frame])[0]
     picking_configuration = robot.inverse_kinematics(picking_frame_tool0, start_configuration)
 
     picking_trajectory = robot.plan_cartesian_motion(frames_tool0,
@@ -85,7 +85,8 @@ def plan_moving_and_placing_motion(robot, brick, start_configuration, tolerance_
     savelevel_target_frame.point += savelevel_vector
 
     # Calculate goal constraints
-    savelevel_target_frame_tool0 = robot.from_attached_tool_to_tool0([savelevel_target_frame])[0]
+    savelevel_target_frame_tool0 = robot.from_tcf_to_t0cf(
+        [savelevel_target_frame])[0]
     goal_constraints = robot.constraints_from_frame(savelevel_target_frame_tool0,
                                                     tolerance_position,
                                                     tolerance_axes)
@@ -97,9 +98,9 @@ def plan_moving_and_placing_motion(robot, brick, start_configuration, tolerance_
                                           num_planning_attempts=20,
                                           allowed_planning_time=10)
 
-    
+
     frames = [savelevel_target_frame, target_frame]
-    frames_tool0 = robot.from_attached_tool_to_tool0(frames)
+    frames_tool0 = robot.from_tcf_to_t0cf(frames)
     # as start configuration take last trajectory's end configuration
     last_configuration = moving_trajectory.points[-1]
 

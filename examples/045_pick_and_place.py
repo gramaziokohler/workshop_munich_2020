@@ -93,7 +93,7 @@ with RosClient('localhost') as client:
     frames = [picking_frame, savelevel_picking_frame]
 
     start_configuration = picking_configuration
-    trajectory1 = robot.plan_cartesian_motion(robot.from_attached_tool_to_tool0(frames),
+    trajectory1 = robot.plan_cartesian_motion(robot.from_tcf_to_t0cf(frames),
                                               start_configuration,
                                               max_step=0.01,
                                               attached_collision_meshes=[brick_acm])
@@ -104,7 +104,8 @@ with RosClient('localhost') as client:
     element = assembly.element(key)
 
     # 2. Calulate a free-space motion to the savelevel_target_frame
-    savelevel_target_frame_tool0 = robot.from_attached_tool_to_tool0([savelevel_target_frame])[0]
+    savelevel_target_frame_tool0 = robot.from_tcf_to_t0cf(
+        [savelevel_target_frame])[0]
     goal_constraints = robot.constraints_from_frame(savelevel_target_frame_tool0,
                                                     tolerance_position,
                                                     tolerance_axes)
@@ -119,7 +120,7 @@ with RosClient('localhost') as client:
     frames = [savelevel_target_frame, target_frame]
 
     start_configuration = trajectory2.points[-1]  # as start configuration take last trajectory's end configuration
-    trajectory3 = robot.plan_cartesian_motion(robot.from_attached_tool_to_tool0(frames),
+    trajectory3 = robot.plan_cartesian_motion(robot.from_tcf_to_t0cf(frames),
                                               start_configuration,
                                               max_step=0.01,
                                               attached_collision_meshes=[brick_acm])
