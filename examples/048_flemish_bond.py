@@ -32,7 +32,7 @@ assembly = Assembly()
 # Your code goes here.
 # HINT: Use the examples to see how to re-use the brick/halfbrick elements
 # defined above, and get a transformed instance of each of them as you
-# build up your brick wall. 
+# build up your brick wall.
 # Your code comes here
 
 
@@ -41,7 +41,7 @@ assembly = Assembly()
 # ==============================================================================
 
 # Transform assembly to correct location and adjust if needed
-assembly.transform(Translation([-0.26, -0.34, 0]))
+assembly.transform(Translation.from_vector([-0.26, -0.34, 0]))
 
 # Save assembly to json
 assembly.to_json(PATH_TO, pretty=True)

@@ -49,18 +49,18 @@ for row in range(COURSES):
         is_half_brick = (first or last) and half_brick_ends
 
         if is_half_brick:
-            T = Translation([dx - width/2, 0, dy])
+            T = Translation.from_vector([dx - width/2, 0, dy])
             assembly.add_element(halfbrick.transformed(T))
             dx += width/2
         else:
-            T = Translation([dx, 0, dy])
+            T = Translation.from_vector([dx, 0, dy])
             assembly.add_element(brick.transformed(T))
             dx += width
 
         dx += gap
 
 
-assembly.transform(Translation([-0.26, -0.28, 0]))
+assembly.transform(Translation.from_vector([-0.26, -0.28, 0]))
 
 # 6. Save assembly to json
 assembly.to_json(PATH_TO)

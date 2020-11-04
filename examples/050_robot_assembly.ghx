@@ -1628,7 +1628,7 @@ if robot and configuration:
 
     print("Configuration:")
     print(configuration.values)
-    
+
     axes = robot.transformed_axes(configuration)
 
     if show_frames:
@@ -1640,7 +1640,7 @@ if robot and configuration:
 
     print("End-effector frame:")
     print(ee_frame)
-    
+
     if show_visual:
         visual = robot.draw_visual()
 
@@ -4741,7 +4741,7 @@ from scriptcontext import sticky as st
 
 import compas
 from compas_fab.robots.ur5 import Robot
-from compas_fab.ghpython import RobotArtist
+from compas_ghpython.artists import RobotModelArtist
 
 compas.PRECISION = '12f'
 
@@ -4754,7 +4754,7 @@ if robot_key not in st:
 
 if load:
     robot = Robot(load_geometry=True)
-    robot.artist = RobotArtist(robot.model)
+    robot.artist = RobotModelArtist(robot.model)
     st[robot_key] = robot
     robot.scale(scale_factor)
 
@@ -5395,11 +5395,13 @@ LOGGER = logging.getLogger('roslibpy')
 data = dict(requesting_solution=False)
 
 if robot and robot.client and robot.client.is_connected and start_configuration and compute:
-    response = robot.plan_cartesian_motion(frames, 
+    response = robot.plan_cartesian_motion(frames,
                                            start_configuration=start_configuration,
-                                           max_step=float(max_step),
                                            group=group,
-                                           attached_collision_meshes=list(acm))
+                                           options=dict(
+                                            max_step=float(max_step),
+                                            attached_collision_meshes=list(acm)
+                                           ))
     sc.sticky[response_key] = response
 else:
     sc.sticky[response_key] = None
@@ -6544,15 +6546,17 @@ data = dict(requesting_solution=False)
 path_constraints = list(path_constraints)
 if not len(path_constraints):
     path_constraints = None
-    
+
 
 if robot and robot.client and robot.client.is_connected and start_configuration and compute:
     st[response_key] = robot.plan_motion(goal_constraints,
                                          start_configuration,
                                          group,
-                                         planner_id=str(planner_id),
-                                         path_constraints=path_constraints,
-                                         attached_collision_meshes=list(acm))
+                                         options=dict(
+                                            planner_id=str(planner_id),
+                                            path_constraints=path_constraints,
+                                            attached_collision_meshes=list(acm)
+                                         ))
 
 response = st[response_key]</item>
                     <item name="Description" type_name="gh_string" type_code="10">GhPython provides a Python script component</item>
@@ -11417,7 +11421,7 @@ def pipes_from_frame(frame, size, radius):
 
 pipe_size = 0.1 * robot.scale_factor
 pipe_radius = 0.001 * robot.scale_factor
-    
+
 
 pipes = []
 frames_color = []
@@ -11426,7 +11430,7 @@ for frame in frames:
         continue
     pipes += pipes_from_frame(frame, pipe_size, pipe_radius)
     frames_color += frame_colors
-    
+
 G = draw_pipes(pipes, cap=1)
 S = frames_color</item>
                     <item name="Description" type_name="gh_string" type_code="10">GhPython provides a Python script component</item>
@@ -13187,11 +13191,11 @@ assembly = Assembly()
 for i in range(num):
     dy = i * height
     block = brick.copy()
-    block.transform(Translation([0, 0, dy]))
+    block.transform(Translation.from_vector([0, 0, dy]))
     print(block.data)
     assembly.add_element(block)
 
-T = Translation(list(origin))
+T = Translation.from_vector(list(origin))
 assembly.transform(T)
 
 if show:
@@ -14465,9 +14469,11 @@ LOGGER = logging.getLogger('roslibpy')
 
 if robot and robot.client and robot.client.is_connected and start_configuration and compute:
     response = robot.plan_cartesian_motion(frames, start_configuration=start_configuration,
-                                 max_step=float(max_step),
                                  group=group,
-                                 attached_collision_meshes=list(acm))
+                                 options=dict(
+                                    max_step=float(max_step),
+                                    attached_collision_meshes=list(acm)
+                                 ))
     sc.sticky[response_key] = response
     print(response)
 
@@ -16594,7 +16600,7 @@ if step:
 if back:
     if st[counter_key] &gt; 1:
         st[counter_key] -= 1
-    
+
 if len(L):
     item = L[st[counter_key]]
 
@@ -20305,7 +20311,7 @@ gripping_frame = Frame([0, 0, height], [1, 0, 0], [0, 1, 0])
 halfbrick = Element.from_shape(box, gripping_frame)
 
 if robot and robot.client and robot.client.is_connected:
-    
+
     picking_frame_tolerance = picking_frame.copy()
     picking_frame_tolerance.point += tolerance_vector
     frame_tool0 = robot.from_attached_tool_to_tool0([picking_frame_tolerance])[0]
@@ -22513,7 +22519,7 @@ for key in assembly.network.vertices():
         trajectory += elem.trajectory
         trajectory += reversed(elem.trajectory)
 
-        
+
     #assembly.network.set_vertex_attribute(key, 'is_planned', True)
     #print("Calculated element with key %d" % key)</item>
                     <item name="Description" type_name="gh_string" type_code="10">GhPython provides a Python script component</item>
@@ -22872,7 +22878,7 @@ if step:
 if back:
     if st[counter_key] &gt; 1:
         st[counter_key] -= 1
-    
+
 if len(L):
     item = L[st[counter_key]]
 

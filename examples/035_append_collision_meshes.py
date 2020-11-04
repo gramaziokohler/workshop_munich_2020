@@ -14,7 +14,7 @@ with RosClient('localhost') as client:
     scene = PlanningScene(robot)
 
     brick = Box.from_width_height_depth(0.11, 0.07, 0.25)
-    brick.transform(Translation([0, 0, brick.zsize/2.]))
+    brick.transform(Translation.from_vector([0, 0, brick.zsize/2.]))
 
     for i in range(5):
         mesh = Mesh.from_vertices_and_faces(brick.vertices, brick.faces)

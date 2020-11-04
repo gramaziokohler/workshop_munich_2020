@@ -62,11 +62,11 @@ num = 7
 assembly = Assembly()
 
 for i in range(num):
-    T = Translation([0, 0,  i * height])
+    T = Translation.from_vector([0, 0,  i * height])
     assembly.add_element(element.transformed(T))
 
 # move assembly to position
-assembly.transform(Translation([-0.26, -0.28, 0]))
+assembly.transform(Translation.from_vector([-0.26, -0.28, 0]))
 
 # Bring the element's mesh into the robot's tool0 frame
 element_tool0 = element.copy()

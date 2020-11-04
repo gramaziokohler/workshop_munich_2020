@@ -186,7 +186,7 @@ class Element(object):
         # Probably best to store JointTrajectory instead of JointTrajectoryPoints
         if self.trajectory:
             d['trajectory'] = [p.to_data() for p in self.trajectory]
-            
+
         return d
 
     @data.setter
@@ -233,7 +233,7 @@ class Element(object):
         >>> from compas.geometry import Box
         >>> from compas.geometry import Translation
         >>> element = Element.from_box(Box(Frame.worldXY(), 1, 1, 1))
-        >>> element.transform(Translation([1, 0, 0]))
+        >>> element.transform(Translation.from_vector([1, 0, 0]))
         """
         self.frame.transform(transformation)
         if self._gripping_frame:
@@ -243,7 +243,7 @@ class Element(object):
                 mesh_transform(self._source, transformation)  # it would be really good to have Mesh.transform()
             else:
                 self._source.transform(transformation)
-    
+
     def transformed(self, transformation):
         """Returns a transformed copy of this element.
 
@@ -260,7 +260,7 @@ class Element(object):
         >>> from compas.geometry import Box
         >>> from compas.geometry import Translation
         >>> element = Element.from_box(Box(Frame.worldXY(), 1, 1, 1))
-        >>> element2 = element.transformed(Translation([1, 0, 0]))
+        >>> element2 = element.transformed(Translation.from_vector([1, 0, 0]))
         """
         elem = self.copy()
         elem.transform(transformation)

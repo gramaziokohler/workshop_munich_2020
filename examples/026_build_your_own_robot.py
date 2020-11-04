@@ -13,7 +13,7 @@ from compas_fab.robots import Configuration
 # create cylinder in yz plane
 radius, length = 0.3, 5
 cylinder = Cylinder(Circle(Plane([0, 0, 0], [1, 0, 0]), radius), length)
-cylinder.transform(Translation([length / 2., 0, 0]))
+cylinder.transform(Translation.from_vector([length / 2., 0, 0]))
 
 # create robot
 robot = RobotModel("robot", links=[], joints=[])
