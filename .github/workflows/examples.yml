@@ -35,8 +35,7 @@ jobs:
           python -m pip install cython --install-option="--no-cython-compile"
       - name: Install
         run: |
-          python -m pip install --no-cache-dir compas_fab==0.13
-          python -m pip install --force-reinstall git+https://github.com/compas-dev/compas_fab.git#egg=compas_fab
+          python -m pip install --no-cache-dir compas_fab==0.13.1
       - name: Run tests
         run: |
           python examples/001_several_ways_to_construct_frame.py

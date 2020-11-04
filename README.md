@@ -131,7 +131,7 @@ Create a new conda environment:
 
     (tum20) pip show compas_fab
     Name: compas-fab
-    Version: 0.13.0
+    Version: 0.13.1
     Summary: Robotic fabrication package for the COMPAS Framework
     ...
 
