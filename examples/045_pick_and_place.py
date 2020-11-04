@@ -11,8 +11,12 @@ from compas_fab.robots import Configuration
 from compas_fab.robots import Tool
 from compas_fab.robots import AttachedCollisionMesh
 from compas_fab.robots import CollisionMesh
-from assembly import Element
-from assembly import Assembly
+#from assembly import Element
+#from assembly import Assembly
+
+import sys
+sys.path.append(r"C:\Users\rustr\workspace\libraries\assembly_information_model\src")
+from assembly_information_model.assembly import Element, Assembly
 
 HERE = os.path.dirname(__file__)
 DATA = os.path.abspath(os.path.join(HERE, "..", "data"))
@@ -20,38 +24,35 @@ PATH_TO = os.path.join(DATA, os.path.splitext(os.path.basename(__file__))[0] + "
 print(PATH_TO)
 
 
+# create tool from json
+filepath = os.path.join(DATA, "vacuum_gripper.json")
+tool = Tool.from_json(filepath)
+
 # load settings (shared by GH)
 settings_file = os.path.join(DATA, "settings.json")
 with open(settings_file, 'r') as f:
     data = json.load(f)
 
-# create tool from json
-filepath = os.path.join(DATA, "vacuum_gripper.json")
-tool = Tool.from_json(filepath)
-
-# define brick dimensions
-width, length, height = data['brick_dimensions']
-
+# create Element
+element0 = Element.from_data(data['element0'])
+# picking frame
+picking_frame = Frame.from_data(data['picking_frame'])
 # little tolerance to not 'crash' into collision objects
 tolerance_vector = Vector.from_data(data['tolerance_vector'])
-
 savelevel_vector = Vector.from_data(data['savelevel_vector'])
 
 # define target frame
-target_frame = Frame([-0.26, -0.28, height], [1, 0, 0], [0, 1, 0])
+target_frame = Frame((0.325, 0.400, 0.006), (0.000, 1.000, 0.000), (-1.000, 0.000, 0.000))
 target_frame.point += tolerance_vector
-
-# create Element and move it to target frame
-element = Element.from_data(data['brick'])
 
 # create Assembly with element at target_frame
 assembly = Assembly()
-T = Transformation.from_frame_to_frame(element.frame, target_frame)
-assembly.add_element(element.transformed(T))
+T = Transformation.from_frame_to_frame(element0.frame, target_frame)
+assembly.add_element(element0.transformed(T))
 
 # Bring the element's mesh into the robot's tool0 frame
-element_tool0 = element.copy()
-T = Transformation.from_frame_to_frame(element_tool0.gripping_frame, tool.frame)
+element_tool0 = element0.copy()
+T = Transformation.from_frame_to_frame(element_tool0._tool_frame, tool.frame)
 element_tool0.transform(T)
 
 # define picking_configuration
@@ -95,8 +96,10 @@ with RosClient('localhost') as client:
     start_configuration = picking_configuration
     trajectory1 = robot.plan_cartesian_motion(robot.from_tcf_to_t0cf(frames),
                                               start_configuration,
-                                              max_step=0.01,
-                                              attached_collision_meshes=[brick_acm])
+                                              options=dict(
+                                                  max_step=0.01,
+                                                  attached_collision_meshes=[brick_acm],
+                                              ))
     assert(trajectory1.fraction == 1.)
 
     # ==========================================================================
@@ -110,20 +113,26 @@ with RosClient('localhost') as client:
                                                     tolerance_position,
                                                     tolerance_axes)
 
-    start_configuration = trajectory1.points[-1]  # as start configuration take last trajectory's end configuration
+    # as start configuration take last trajectory's end configuration
+    start_configuration = Configuration(trajectory1.points[-1].values, trajectory1.points[-1].types)
     trajectory2 = robot.plan_motion(goal_constraints,
                                     start_configuration,
-                                    planner_id='RRT',
-                                    attached_collision_meshes=[brick_acm])
+                                    options=dict(
+                                        planner_id='RRT',
+                                        attached_collision_meshes=[brick_acm]
+                                    ))
 
     # 3. Calculate a cartesian motion to the target_frame
     frames = [savelevel_target_frame, target_frame]
-
-    start_configuration = trajectory2.points[-1]  # as start configuration take last trajectory's end configuration
+    # as start configuration take last trajectory's end configuration
+    start_configuration = Configuration(trajectory2.points[-1].values, trajectory2.points[-1].types)
     trajectory3 = robot.plan_cartesian_motion(robot.from_tcf_to_t0cf(frames),
                                               start_configuration,
-                                              max_step=0.01,
-                                              attached_collision_meshes=[brick_acm])
+                                              options=dict(
+                                                max_step=0.01,
+                                                attached_collision_meshes=[brick_acm]
+                                              ))
+    print(trajectory3.fraction)
     assert(trajectory3.fraction == 1.)
 
     # 4. Add the brick to the planning scene
