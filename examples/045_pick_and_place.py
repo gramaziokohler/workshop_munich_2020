@@ -11,12 +11,9 @@ from compas_fab.robots import Configuration
 from compas_fab.robots import Tool
 from compas_fab.robots import AttachedCollisionMesh
 from compas_fab.robots import CollisionMesh
-#from assembly import Element
-#from assembly import Assembly
 
-import sys
-sys.path.append(r"C:\Users\rustr\workspace\libraries\assembly_information_model\src")
-from assembly_information_model.assembly import Element, Assembly
+from assembly_information_model.assembly import Element
+from assembly_information_model.assembly import Assembly
 
 HERE = os.path.dirname(__file__)
 DATA = os.path.abspath(os.path.join(HERE, "..", "data"))
