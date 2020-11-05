@@ -59,6 +59,11 @@ This workshop is about robotic assembly using the COMPAS framework.
   * [Visualize robots in Rhino](examples/024_robot_artist_rhino.py)
   * [Visualize robots in Grasshopper](examples/025_robot_artist_grasshopper.ghx)
   * [Build your own robot](examples/026_build_your_own_robot.py)
+* Basic ROS examples:
+  * [Verify connection](examples/027_check_connection.py)
+  * The canonical example of ROS: chatter nodes
+    * [Talker node](examples/028_ros_hello_world_talker.py)
+    * [Listener node](examples/029_ros_hello_world_listener.py)
 
 ### Day 2
 
@@ -69,11 +74,6 @@ This workshop is about robotic assembly using the COMPAS framework.
 
 #### Robot model and ROS 1
 
-* Basic ROS examples:
-  * [Verify connection](examples/027_check_connection.py)
-  * The cannonical example of ROS: chatter nodes
-    * [Talker node](examples/028_ros_hello_world_talker.py)
-    * [Listener node](examples/029_ros_hello_world_listener.py)
 * Examples of ROS & MoveIt planning with UR10e:
   * [Forward Kinematics](examples/030_forward_kinematics_ros_loader.py)
   * [Inverse Kinematics](examples/031_inverse_kinematics_ros_loader.py)
