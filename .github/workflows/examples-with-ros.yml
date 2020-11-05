@@ -42,6 +42,8 @@ jobs:
           python examples/042_detach_tool.py
           python examples/042_plan_cartesian_motion_with_attached_tool.py
           python examples/043_create_element_and_add_to_planning_scene.py
+          python examples/044_add_element_as_attached_collision_object.py
+          python examples/045_pick_and_place.py
       - name: Tear down docker containers
         run: |
           docker-compose -f "docker/docker-compose.yml" down
