@@ -23,9 +23,9 @@ box_transformed = box.transformed(T)
 mesh_transformed = Mesh.from_shape(box_transformed)
 
 # create Projection
-P = Projection.from_plane_and_direction(Plane((0,0,0), (0, 0, 1)), (3, 5, 5))
-P = Projection.from_plane(Plane((0,0,0), (0, 0, 1)))
-P = Projection.from_plane_and_point(Plane((0,0,0), (0, 0, 1)), (3, 5, 5))
+P = Projection.from_plane_and_direction(Plane((0, 0, 0), (0, 0, 1)), (3, 5, 5))
+P = Projection.from_plane(Plane((0, 0, 0), (0, 0, 1)))
+P = Projection.from_plane_and_point(Plane((0, 0, 0), (0, 0, 1)), (3, 5, 5))
 
 # apply transformation on mesh
 mesh_projected = mesh_transformed.transformed(P)
