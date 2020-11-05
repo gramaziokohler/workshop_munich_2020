@@ -7,8 +7,6 @@ from compas_fab.backends import RosClient
 from compas_fab.robots import PlanningScene
 from compas_fab.robots import CollisionMesh
 
-import sys
-sys.path.append(r"C:\Users\rustr\workspace\libraries\assembly_information_model\src")
 from assembly_information_model.assembly import Element
 
 HERE = os.path.dirname(__file__)

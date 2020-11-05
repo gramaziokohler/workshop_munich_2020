@@ -1210,7 +1210,7 @@ from compas_ghpython.artists import MeshArtist
 from compas_fab.robots import Configuration
 
 if robot and configuration:
-    
+
     robot.update(configuration, visual=show_visual, collision=show_collision)
 
     if show_visual:
@@ -1218,7 +1218,7 @@ if robot and configuration:
 
     if show_collision:
         collision = robot.artist.draw_collision()
-    
+
     frames = robot.transformed_frames(configuration, group)
 
     if show_base_frame:
@@ -1227,13 +1227,13 @@ if robot and configuration:
     if show_end_effector_frame:
         ee_frame = robot.forward_kinematics(configuration, group)
         print("End-effector", ee_frame)
-    
+
     if not show_frames:
         frames = None
 
     frame = robot.forward_kinematics(configuration, options=dict(solver='model', link_name=robot.attached_tool.link_name))
     robot.artist.update_tool(visual=visual, collision=collision, transformation=Transformation.from_frame_to_frame(Frame.worldXY(), frame))
-    
+
     if show_acm:
         M = []
         for acm in attached_collision_meshes:
@@ -17183,9 +17183,7 @@ __version__ = "2020.11.04"
 import rhinoscriptsyntax as rs
 import sys
 
-sys.path.append(r"C:\Users\rustr\workspace\compas_fab\src")
-sys.path.append(r"C:\Users\rustr\workspace\compas\src")
-sys.path.append(r"C:\Users\rustr\workspace\libraries\assembly_information_model\src")</item>
+</item>
                     <item name="Description" type_name="gh_string" type_code="10">Provides a scripting component.</item>
                     <item name="EditorLocation" type_name="gh_drawing_point" type_code="30">
                       <X>182</X>
@@ -17576,8 +17574,8 @@ length = 0.23
 height = 0.005
 
 # element
-box_frame = Frame([0., 0., height/2.], [1, 0, 0], [0, 1, 0]) #center of the box frame 
-box = Box(box_frame, length, width, height) 
+box_frame = Frame([0., 0., height/2.], [1, 0, 0], [0, 1, 0]) #center of the box frame
+box = Box(box_frame, length, width, height)
 tool_frame = Frame([0, 0, height], [1, 0, 0], [0, 1, 0])
 elem = Element.from_shape(box, tool_frame)
 elem._tool_frame = tool_frame
@@ -17977,37 +17975,37 @@ cf = Frame(cp.Origin, cp.XAxis, cp.YAxis)
 
 
 for i in range(25): # loop through the number of layers i
-    
+
     axis = cf.zaxis
     angle = math.radians(i*3)
-    
+
     R = Rotation.from_axis_and_angle(axis, angle, point=cp.Origin) #Calculates a ``Rotation`` from a rotation axis and an angle and an optional point of rotation.
     T = Translation.from_vector([0,0,0.005*i])
-   
+
 
     cft = cf.transformed(R * T) #transforms the origin plane
 
-    if i%2 == 0: 
+    if i%2 == 0:
         R = Rotation.from_axis_and_angle(cft.zaxis, math.radians(90), point=cft.point)
         cft = cft.transformed(R)
-       
+
     add = math.sin(i/5)*0.015
     #print(add)
-    
+
     o1 = cft.point + cft.yaxis*(0.075+add)
     o2 = cft.point - cft.yaxis*(0.075+add)
-    
+
     f1 = Frame(o1, cft.xaxis, cft.yaxis)
     f2 = Frame(o2, cft.xaxis, cft.yaxis)
-    
+
     planes.append(draw_frame(f1))
     planes.append(draw_frame(f2))
-    
+
     T1 = Transformation.from_frame_to_frame(Frame.worldXY(), f1)
     T2 = Transformation.from_frame_to_frame(Frame.worldXY(), f2)
-    
+
     #T1 = Translation.from_vector([10,2,3])
-    
+
     # create new instances of the element
     new_elem_1 = elem.transformed(T1) #returns a deep copy of the initial element at the new location of the frame
     new_elem_2 = elem.transformed(T2)
@@ -19112,7 +19110,7 @@ if counter_key not in st:
 
 if running_key not in st:
     st[running_key] = False
-    
+
 
 if st[running_key]:
     if st[counter_key] &lt; len(L) - 1:
@@ -19121,8 +19119,8 @@ if st[running_key]:
     else:
         st[counter_key] = 0
         st[running_key] = False
-    
-    
+
+
 if start:
     st[running_key] = True
 

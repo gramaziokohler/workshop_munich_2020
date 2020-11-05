@@ -14,8 +14,6 @@ from compas_fab.robots import CollisionMesh
 #from assembly import Element
 #from assembly import Assembly
 
-import sys
-sys.path.append(r"C:\Users\rustr\workspace\libraries\assembly_information_model\src")
 from assembly_information_model.assembly import Element, Assembly
 
 HERE = os.path.dirname(__file__)
