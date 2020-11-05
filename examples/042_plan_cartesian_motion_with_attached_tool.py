@@ -25,8 +25,8 @@ with RosClient('localhost') as client:
 
     # 3. Define frames
     picking_frame = Frame([-0.43, 0, element_height], [1, 0, 0], [0, 1, 0])
-    savelevel_picking_frame = Frame([-0.43, 0, element_height + safelevel_height], [1, 0, 0], [0, 1, 0])
-    frames = [picking_frame, savelevel_picking_frame]
+    safelevel_picking_frame = Frame([-0.43, 0, element_height + safelevel_height], [1, 0, 0], [0, 1, 0])
+    frames = [picking_frame, safelevel_picking_frame]
 
     # 4. Convert frames to tool0_frames
     frames_tool0 = robot.from_tcf_to_t0cf(frames)

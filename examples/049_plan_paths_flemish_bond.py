@@ -25,12 +25,12 @@ with open(settings_file, 'r') as f:
 
 width, length, height = data['brick_dimensions']
 tolerance_vector = Vector.from_data(data['tolerance_vector'])
-savelevel_vector = Vector.from_data(data['savelevel_vector'])
+safelevel_vector = Vector.from_data(data['safelevel_vector'])
 brick = Element.from_data(data['brick'])
 start_configuration = Configuration.from_data(data['start_configuration'])
 picking_frame = Frame.from_data(data['picking_frame'])
-savelevel_picking_frame = picking_frame.copy()
-savelevel_picking_frame.point += savelevel_vector
+safelevel_picking_frame = picking_frame.copy()
+safelevel_picking_frame.point += safelevel_vector
 picking_frame.point += tolerance_vector
 
 # create tool from json
@@ -58,14 +58,14 @@ attached_brick_mesh = AttachedCollisionMesh(CollisionMesh(brick_tool0.mesh, 'bri
 # From here on: fill in code, whereever you see this dots ...
 
 
-def plan_picking_motion(robot, picking_frame, savelevel_picking_frame, start_configuration, attached_brick_mesh):
+def plan_picking_motion(robot, picking_frame, safelevel_picking_frame, start_configuration, attached_brick_mesh):
     """Returns a cartesian trajectory to pick an element.
 
     Parameters
     ----------
     robot : :class:`compas.robots.Robot`
     picking_frame : :class:`Frame`
-    save_level_picking_frame : :class:`Frame`
+    safelevel_picking_frame : :class:`Frame`
     start_configuration : :class:`Configuration`
     attached_brick_mesh : :class:`AttachedCollisionMesh`
 
@@ -83,7 +83,7 @@ def plan_picking_motion(robot, picking_frame, savelevel_picking_frame, start_con
     return picking_trajectory
 
 
-def plan_moving_and_placing_motion(robot, brick, start_configuration, tolerance_vector, savelevel_vector, attached_brick_mesh):
+def plan_moving_and_placing_motion(robot, brick, start_configuration, tolerance_vector, safelevel_vector, attached_brick_mesh):
     """Returns two trajectories for moving and placing a brick.
 
     Parameters
@@ -92,7 +92,7 @@ def plan_moving_and_placing_motion(robot, brick, start_configuration, tolerance_
     brick : :class:`Element`
     start_configuration : :class:`Configuration`
     tolerance_vector : :class:`Vector`
-    savelevel_vector : :class:`Vector`
+    safelevel_vector : :class:`Vector`
     attached_brick_mesh : :class:`AttachedCollisionMesh`
 
     Returns
@@ -112,7 +112,7 @@ def plan_moving_and_placing_motion(robot, brick, start_configuration, tolerance_
 
     # as start configuration take last trajectory's end configuration
     # last_configuration = ...
-    
+
     # ...
 
     placing_trajectory = robot.plan_cartesian_motion(frames_tool0,

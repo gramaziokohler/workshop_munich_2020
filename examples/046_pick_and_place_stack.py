@@ -35,7 +35,7 @@ width, length, height = data['brick_dimensions']
 # little tolerance to not 'crash' into collision objects
 tolerance_vector = Vector.from_data(data['tolerance_vector'])
 
-savelevel_vector = Vector.from_data(data['savelevel_vector'])
+safelevel_vector = Vector.from_data(data['safelevel_vector'])
 
 # define target frame
 target_frame = Frame([-0.26, -0.28, height], [1, 0, 0], [0, 1, 0])
@@ -51,11 +51,11 @@ picking_configuration = Configuration.from_data(data['picking_configuration'])
 picking_frame = Frame.from_data(data['picking_frame'])
 picking_frame.point += tolerance_vector
 
-# define savelevel frames 'above' the picking- and target frames
-savelevel_picking_frame = picking_frame.copy()
-savelevel_picking_frame.point += savelevel_vector
-savelevel_target_frame = target_frame.copy()
-savelevel_target_frame.point += savelevel_vector
+# define safelevel frames 'above' the picking- and target frames
+safelevel_picking_frame = picking_frame.copy()
+safelevel_picking_frame.point += safelevel_vector
+safelevel_target_frame = target_frame.copy()
+safelevel_target_frame.point += safelevel_vector
 
 # create Assembly stack
 num = 7
@@ -82,23 +82,23 @@ tolerance_vector = Vector(0, 0, 0.001)
 # define picking frame
 picking_frame = Frame([-0.43, 0, height], [1, 0, 0], [0, 1, 0])
 
-# define savelevel frames 'above' the picking- and target frames
-savelevel_vector = Vector(0, 0, 0.05)
+# define safelevel frames 'above' the picking- and target frames
+safelevel_vector = Vector(0, 0, 0.05)
 
 
-def calculate_picking_motion(start_configuration, picking_frame, tolerance_vector, savelevel_vector):
+def calculate_picking_motion(start_configuration, picking_frame, tolerance_vector, safelevel_vector):
     """Returns a trajectory to pick an element.
     """
     picking_frame.point += tolerance_vector
 
-    savelevel_picking_frame = picking_frame.copy()
-    savelevel_picking_frame.point += savelevel_vector
+    safelevel_picking_frame = picking_frame.copy()
+    safelevel_picking_frame.point += safelevel_vector
 
     picking_frame_tool0 = robot.from_tcf_to_t0cf([picking_frame])[0]
     picking_configuration = robot.inverse_kinematics(picking_frame_tool0, start_configuration)
 
-    # calculate a cartesian motion from the picking frame to the savelevel_picking_frame
-    frames = [picking_frame, savelevel_picking_frame]
+    # calculate a cartesian motion from the picking frame to the safelevel_picking_frame
+    frames = [picking_frame, safelevel_picking_frame]
 
     start_configuration = picking_configuration
     trajectory1 = robot.plan_cartesian_motion(robot.from_tcf_to_t0cf(frames),
@@ -108,7 +108,7 @@ def calculate_picking_motion(start_configuration, picking_frame, tolerance_vecto
     return trajectory1
 
 
-def move_and_placing_motion(element, start_configuration, tolerance_vector, savelevel_vector, brick_acm):
+def move_and_placing_motion(element, start_configuration, tolerance_vector, safelevel_vector, brick_acm):
     """Returns two trajectories to move and place an element.
     """
 
@@ -119,13 +119,13 @@ def move_and_placing_motion(element, start_configuration, tolerance_vector, save
     target_frame = element.gripping_frame.copy()
     target_frame.point += tolerance_vector
 
-    savelevel_target_frame = target_frame.copy()
-    savelevel_target_frame.point += savelevel_vector
+    safelevel_target_frame = target_frame.copy()
+    safelevel_target_frame.point += safelevel_vector
 
-    # calulate a free-space motion to the savelevel_target_frame
-    savelevel_target_frame_tool0 = robot.from_tcf_to_t0cf(
-        [savelevel_target_frame])[0]
-    goal_constraints = robot.constraints_from_frame(savelevel_target_frame_tool0,
+    # calulate a free-space motion to the safelevel_target_frame
+    safelevel_target_frame_tool0 = robot.from_tcf_to_t0cf(
+        [safelevel_target_frame])[0]
+    goal_constraints = robot.constraints_from_frame(safelevel_target_frame_tool0,
                                                     tolerance_position,
                                                     tolerance_axes)
 
@@ -135,7 +135,7 @@ def move_and_placing_motion(element, start_configuration, tolerance_vector, save
                                     attached_collision_meshes=[brick_acm])
 
     # calculate a cartesian motion to the target_frame
-    frames = [savelevel_target_frame, target_frame]
+    frames = [safelevel_target_frame, target_frame]
 
     start_configuration = trajectory2.points[-1]  # as start configuration take last trajectory's end configuration
     trajectory3 = robot.plan_cartesian_motion(robot.from_tcf_to_t0cf(frames),
@@ -170,13 +170,13 @@ with RosClient('localhost') as client:
     scene.add_attached_collision_mesh(brick_acm)
 
     # compute 'pick' cartesian motion
-    trajectory1 = calculate_picking_motion(start_configuration, picking_frame, tolerance_vector, savelevel_vector)
+    trajectory1 = calculate_picking_motion(start_configuration, picking_frame, tolerance_vector, safelevel_vector)
     assert(trajectory1.fraction == 1.)
     start_configuration = trajectory1.points[-1]
 
     for key in assembly.network.vertices():
         elem = assembly.element(key)
-        trajectory2, trajectory3 = move_and_placing_motion(elem, start_configuration, tolerance_vector, savelevel_vector, brick_acm)
+        trajectory2, trajectory3 = move_and_placing_motion(elem, start_configuration, tolerance_vector, safelevel_vector, brick_acm)
         assert(trajectory3.fraction == 1.)
 
         # add trajectories to element and set to 'planned'

@@ -1210,7 +1210,7 @@ from compas_ghpython.artists import MeshArtist
 from compas_fab.robots import Configuration
 
 if robot and configuration:
-    
+
     robot.update(configuration, visual=show_visual, collision=show_collision)
 
     if show_visual:
@@ -1218,7 +1218,7 @@ if robot and configuration:
 
     if show_collision:
         collision = robot.artist.draw_collision()
-    
+
     frames = robot.transformed_frames(configuration, group)
 
     if show_base_frame:
@@ -1227,13 +1227,13 @@ if robot and configuration:
     if show_end_effector_frame:
         ee_frame = robot.forward_kinematics(configuration, group)
         print("End-effector", ee_frame)
-    
+
     if not show_frames:
         frames = None
 
     frame = robot.forward_kinematics(configuration, options=dict(solver='model', link_name=robot.attached_tool.link_name))
     robot.artist.update_tool(visual=visual, collision=collision, transformation=Transformation.from_frame_to_frame(Frame.worldXY(), frame))
-    
+
     if show_acm:
         M = []
         for acm in attached_collision_meshes:
@@ -7708,7 +7708,7 @@ scene = st[scene_key]</item>
 from compas.geometry import Frame
 
 if robot:
-    target_frame_tool0 = robot.from_tcf_to_t0cf([savelevel_target_frame])[0]
+    target_frame_tool0 = robot.from_tcf_to_t0cf([safelevel_target_frame])[0]
     tolerances_axes = [math.radians(tolerance_xaxis_deg), math.radians(tolerance_yaxis_deg), math.radians(tolerance_zaxis_deg)]
     goal_constraints = robot.constraints_from_frame(target_frame_tool0, tolerance_position, tolerances_axes, group)</item>
                     <item name="Description" type_name="gh_string" type_code="10">GhPython provides a Python script component</item>
@@ -7824,10 +7824,10 @@ if robot:
                         <chunk name="InputParam" index="2">
                           <items count="12">
                             <item name="AllowTreeAccess" type_name="gh_bool" type_code="1">true</item>
-                            <item name="Description" type_name="gh_string" type_code="10">Script input savelevel_target_frame.</item>
+                            <item name="Description" type_name="gh_string" type_code="10">Script input safelevel_target_frame.</item>
                             <item name="InstanceGuid" type_name="gh_guid" type_code="9">97aafe00-0055-45f9-bd0d-bfb42a83e4bd</item>
-                            <item name="Name" type_name="gh_string" type_code="10">savelevel_target_frame</item>
-                            <item name="NickName" type_name="gh_string" type_code="10">savelevel_target_frame</item>
+                            <item name="Name" type_name="gh_string" type_code="10">safelevel_target_frame</item>
+                            <item name="NickName" type_name="gh_string" type_code="10">safelevel_target_frame</item>
                             <item name="Optional" type_name="gh_bool" type_code="1">true</item>
                             <item name="ScriptParamAccess" type_name="gh_int32" type_code="3">0</item>
                             <item name="ShowTypeHints" type_name="gh_bool" type_code="1">true</item>
@@ -9403,52 +9403,52 @@ from compas_fab.robots import CollisionMesh, AttachedCollisionMesh
 if robot:
 
     settings_file = os.path.join(data_path, "settings.json")
-    
+
     # convert
     tolerance_vector = Vector(*list(tolerance_vector))
-    savelevel_vector = Vector(*list(savelevel_vector))
-    
+    safelevel_vector = Vector(*list(safelevel_vector))
+
     # create attached collision object
     element0_tool0 = element0.copy()
     T = Transformation.from_frame_to_frame(element0_tool0._tool_frame, robot.attached_tool.frame)
     element0_tool0.transform(T)
     ee_link_name = robot.get_end_effector_link_name()
     element_acm = AttachedCollisionMesh(CollisionMesh(element0_tool0.mesh, 'brick'), ee_link_name)
-    
-    
-    
+
+
+
     #dimensions = data['brick_dimensions']
     #tolerance_vector = Vector.from_data(data['tolerance_vector'])
-    #savelevel_vector = Vector.from_data(data['savelevel_vector'])
-    
+    #safelevel_vector = Vector.from_data(data['safelevel_vector'])
+
     #picking_frame = Frame.from_data(data['picking_frame'])
     #picking_configuration = Configuration.from_data(data['picking_configuration'])
-    
+
     picking_configuration = Configuration.from_revolute_values((0.917, 5.017, 2.684, 3.294, -1.571, 0.917))
     picking_frame = Frame(Point(0.075, 0.416, 0.006), Vector(1, 0, 0), Vector(0, 1, 0))
-    
+
     data = {}
     data['picking_configuration'] = picking_configuration.data
     data['picking_frame'] = picking_frame.data
     data['tolerance_vector'] = tolerance_vector.data
-    data['savelevel_vector'] = savelevel_vector.data
+    data['safelevel_vector'] = safelevel_vector.data
     data['element0'] = element0.data
-    
+
     with open(settings_file, 'w') as f:
-        json.dump(data, f)
-    
-    
-    savelevel_picking_frame = picking_frame.copy()
+        json.dump(data, f, indent=4, sort_keys=True)
+
+
+    safelevel_picking_frame = picking_frame.copy()
     brick_at_picking_frame = element0.transformed(Transformation.from_frame_to_frame(element0._tool_frame, picking_frame))
     picking_element_mesh = MeshArtist(brick_at_picking_frame.mesh).draw()
-    
+
     picking_frame.point += tolerance_vector
-    savelevel_picking_frame.point += savelevel_vector
-    
+    safelevel_picking_frame.point += safelevel_vector
+
     target_frame = current_element._tool_frame.copy()
     target_frame.point += tolerance_vector
-    savelevel_target_frame = target_frame.copy()
-    savelevel_target_frame.point += savelevel_vector</item>
+    safelevel_target_frame = target_frame.copy()
+    safelevel_target_frame.point += safelevel_vector</item>
                     <item name="Description" type_name="gh_string" type_code="10">GhPython provides a Python script component</item>
                     <item name="EditorLocation" type_name="gh_drawing_point" type_code="30">
                       <X>335</X>
@@ -9600,10 +9600,10 @@ if robot:
                         <chunk name="InputParam" index="3">
                           <items count="12">
                             <item name="AllowTreeAccess" type_name="gh_bool" type_code="1">true</item>
-                            <item name="Description" type_name="gh_string" type_code="10">Script input savelevel_vector.</item>
+                            <item name="Description" type_name="gh_string" type_code="10">Script input safelevel_vector.</item>
                             <item name="InstanceGuid" type_name="gh_guid" type_code="9">09b14873-4abc-4a57-bea2-0baf6486c2d6</item>
-                            <item name="Name" type_name="gh_string" type_code="10">savelevel_vector</item>
-                            <item name="NickName" type_name="gh_string" type_code="10">savelevel_vector</item>
+                            <item name="Name" type_name="gh_string" type_code="10">safelevel_vector</item>
+                            <item name="NickName" type_name="gh_string" type_code="10">safelevel_vector</item>
                             <item name="Optional" type_name="gh_bool" type_code="1">true</item>
                             <item name="ScriptParamAccess" type_name="gh_int32" type_code="3">0</item>
                             <item name="ShowTypeHints" type_name="gh_bool" type_code="1">true</item>
@@ -9773,10 +9773,10 @@ if robot:
                         </chunk>
                         <chunk name="OutputParam" index="3">
                           <items count="6">
-                            <item name="Description" type_name="gh_string" type_code="10">Script output savelevel_picking_frame.</item>
+                            <item name="Description" type_name="gh_string" type_code="10">Script output safelevel_picking_frame.</item>
                             <item name="InstanceGuid" type_name="gh_guid" type_code="9">40acaea4-49a5-4b77-b16b-4dd8e25c5fbd</item>
-                            <item name="Name" type_name="gh_string" type_code="10">savelevel_picking_frame</item>
-                            <item name="NickName" type_name="gh_string" type_code="10">savelevel_picking_frame</item>
+                            <item name="Name" type_name="gh_string" type_code="10">safelevel_picking_frame</item>
+                            <item name="NickName" type_name="gh_string" type_code="10">safelevel_picking_frame</item>
                             <item name="Optional" type_name="gh_bool" type_code="1">false</item>
                             <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
                           </items>
@@ -9799,10 +9799,10 @@ if robot:
                         </chunk>
                         <chunk name="OutputParam" index="4">
                           <items count="6">
-                            <item name="Description" type_name="gh_string" type_code="10">Script output savelevel_target_frame.</item>
+                            <item name="Description" type_name="gh_string" type_code="10">Script output safelevel_target_frame.</item>
                             <item name="InstanceGuid" type_name="gh_guid" type_code="9">26db9051-9abc-475a-b9dd-e7200bca256b</item>
-                            <item name="Name" type_name="gh_string" type_code="10">savelevel_target_frame</item>
-                            <item name="NickName" type_name="gh_string" type_code="10">savelevel_target_frame</item>
+                            <item name="Name" type_name="gh_string" type_code="10">safelevel_target_frame</item>
+                            <item name="NickName" type_name="gh_string" type_code="10">safelevel_target_frame</item>
                             <item name="Optional" type_name="gh_bool" type_code="1">false</item>
                             <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
                           </items>
@@ -17582,8 +17582,8 @@ length = 0.23
 height = 0.005
 
 # element
-box_frame = Frame([0., 0., height/2.], [1, 0, 0], [0, 1, 0]) #center of the box frame 
-box = Box(box_frame, length, width, height) 
+box_frame = Frame([0., 0., height/2.], [1, 0, 0], [0, 1, 0]) #center of the box frame
+box = Box(box_frame, length, width, height)
 tool_frame = Frame([0, 0, height], [1, 0, 0], [0, 1, 0])
 elem = Element.from_shape(box, tool_frame)
 elem._tool_frame = tool_frame
@@ -17974,37 +17974,37 @@ cf = Frame(cp.Origin, cp.XAxis, cp.YAxis)
 print cf
 
 for i in range(25): # loop through the number of layers i
-    
+
     axis = cf.zaxis
     angle = math.radians(i*3)
-    
+
     R = Rotation.from_axis_and_angle(axis, angle, point=cp.Origin) #Calculates a ``Rotation`` from a rotation axis and an angle and an optional point of rotation.
     T = Translation.from_vector([0,0,0.005*i])
-   
+
 
     cft = cf.transformed(R * T) #transforms the origin plane
 
-    if i%2 == 0: 
+    if i%2 == 0:
         R = Rotation.from_axis_and_angle(cft.zaxis, math.radians(90), point=cft.point)
         cft = cft.transformed(R)
-       
+
     add = math.sin(i/5)*0.015
     #print(add)
-    
+
     o1 = cft.point + cft.yaxis*(0.075+add)
     o2 = cft.point - cft.yaxis*(0.075+add)
-    
+
     f1 = Frame(o1, cft.xaxis, cft.yaxis)
     f2 = Frame(o2, cft.xaxis, cft.yaxis)
-    
+
     planes.append(draw_frame(f1))
     planes.append(draw_frame(f2))
-    
+
     T1 = Transformation.from_frame_to_frame(Frame.worldXY(), f1)
     T2 = Transformation.from_frame_to_frame(Frame.worldXY(), f2)
-    
+
     #T1 = Translation.from_vector([10,2,3])
-    
+
     # create new instances of the element
     new_elem_1 = elem.transformed(T1) #returns a deep copy of the initial element at the new location of the frame
     new_elem_2 = elem.transformed(T2)
@@ -19110,7 +19110,7 @@ if counter_key not in st:
 
 if running_key not in st:
     st[running_key] = False
-    
+
 
 if st[running_key]:
     if st[counter_key] &lt; len(L) - 1:
@@ -19119,8 +19119,8 @@ if st[running_key]:
     else:
         st[counter_key] = 0
         st[running_key] = False
-    
-    
+
+
 if start:
     st[running_key] = True
 
@@ -20437,7 +20437,7 @@ if show_counter:
                     <item name="Description" type_name="gh_string" type_code="10">Contains a collection of three-dimensional vectors</item>
                     <item name="InstanceGuid" type_name="gh_guid" type_code="9">1dba41b0-4dd0-4739-8af5-308525c98270</item>
                     <item name="Name" type_name="gh_string" type_code="10">Vector</item>
-                    <item name="NickName" type_name="gh_string" type_code="10">savelevel_vector</item>
+                    <item name="NickName" type_name="gh_string" type_code="10">safelevel_vector</item>
                     <item name="Optional" type_name="gh_bool" type_code="1">false</item>
                     <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
                   </items>
