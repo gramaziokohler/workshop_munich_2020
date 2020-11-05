@@ -138,7 +138,7 @@ with RosClient('localhost') as client:
 
     # 5. Add trajectories to element and set to 'planned'
     element.trajectory = trajectory1.points + trajectory2.points + trajectory3.points
-    assembly.network.set_vertex_attribute(key, 'is_planned', True)
+    assembly.network.node_attribute(key, 'is_planned', True)
     # ==========================================================================
 
     time.sleep(1)
