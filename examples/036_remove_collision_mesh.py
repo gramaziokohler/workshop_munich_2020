@@ -2,10 +2,9 @@ import time
 
 from compas_fab.backends import RosClient
 from compas_fab.robots import PlanningScene
-from compas_fab.robots.ur5 import Robot
 
 with RosClient('localhost') as client:
-    robot = Robot(client)
+    robot = client.load_robot()
     scene = PlanningScene(robot)
     scene.remove_collision_mesh('brick_wall')
     scene.remove_collision_mesh('floor')
