@@ -84,17 +84,12 @@ with RosClient('localhost') as client:
 
     # 2. Compute picking trajectory
     # picking_trajectory = ...
-    picking_trajectory = plan_picking_motion(
-        robot, picking_frame, safelevel_picking_frame, picking_configuration, attached_element_mesh)
 
     # 3. Save the last configuration from that trajectory as new start_configuration
-    # start_configuration = ...
-    start_configuration = Configuration(
-        picking_trajectory.points[-1].values, picking_trajectory.points[-1].types)
+    start_configuration = Configuration(picking_trajectory.points[-1].values, picking_trajectory.points[-1].types)
 
     sequence = [key for key in assembly.network.nodes()]
-    exclude_keys = [
-        vkey for vkey in assembly.network.nodes_where({'is_planned': True})]
+    exclude_keys = [vkey for vkey in assembly.network.nodes_where({'is_planned': True})]
     sequence = [k for k in sequence if k not in exclude_keys]
 
     for key in sequence:
@@ -106,21 +101,16 @@ with RosClient('localhost') as client:
         T = Transformation.from_frame_to_frame(element._tool_frame, tool.frame)
         element_tool0 = element.transformed(T)
         ee_link_name = robot.get_end_effector_link_name()
-        attached_element_mesh = AttachedCollisionMesh(
-            CollisionMesh(element_tool0.mesh, 'element'), ee_link_name)
+        attached_element_mesh = AttachedCollisionMesh(CollisionMesh(element_tool0.mesh, 'element'), ee_link_name)
         # add the collision mesh to the scene
         scene.add_attached_collision_mesh(attached_element_mesh)
 
         # 5. Calculate moving_ and placing trajectories
         # moving_trajectory, placing_trajectory = ...
-        moving_trajectory, placing_trajectory = plan_moving_and_placing_motion(
-            robot, element, start_configuration, tolerance_vector, safelevel_vector, attached_element_mesh)
 
         # 6. Add the element to the planning scene
         # cm = ...
         # scene. ..
-        cm = CollisionMesh(element.mesh, 'assembly')
-        scene.append_collision_mesh(cm)
 
         # 7. Add calculated trajectories to element and set to 'planned'
         element.trajectory = [picking_trajectory, moving_trajectory, placing_trajectory]
