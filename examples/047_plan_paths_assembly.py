@@ -25,7 +25,7 @@ DATA = os.path.abspath(os.path.join(HERE, "..", "data"))
 PATH_TO = os.path.join(DATA, os.path.splitext(
     os.path.basename(__file__))[0] + ".json")
 
-# os.remove(PATH_TO)
+os.remove(PATH_TO)
 
 # create tool from json
 filepath = os.path.join(DATA, "vacuum_gripper.json")
@@ -82,8 +82,12 @@ with RosClient('localhost') as client:
         scene.remove_collision_mesh('assembly')
         time.sleep(0.1)
 
-    # 2. Compute picking trajectory
-    # picking_trajectory = ...
+    # 2. Compute picking trajectory 
+    picking_trajectory = plan_picking_motion(robot, picking_frame, 
+                                             safelevel_picking_frame,
+                                             picking_configuration,
+                                             attached_element_mesh)
+
 
     # 3. Save the last configuration from that trajectory as new start_configuration
     start_configuration = Configuration(picking_trajectory.points[-1].values, picking_trajectory.points[-1].types)
@@ -91,6 +95,8 @@ with RosClient('localhost') as client:
     sequence = [key for key in assembly.network.nodes()]
     exclude_keys = [vkey for vkey in assembly.network.nodes_where({'is_planned': True})]
     sequence = [k for k in sequence if k not in exclude_keys]
+
+    #sequence = [0, 1, 2, 4, ...]
 
     for key in sequence:
         print("=" * 30 + "\nCalculating path for element with key %d." % key)
@@ -106,11 +112,17 @@ with RosClient('localhost') as client:
         scene.add_attached_collision_mesh(attached_element_mesh)
 
         # 5. Calculate moving_ and placing trajectories
-        # moving_trajectory, placing_trajectory = ...
+        moving_trajectory, placing_trajectory = plan_moving_and_placing_motion(robot, 
+                                                                               element,
+                                                                               start_configuration, 
+                                                                               tolerance_vector,
+                                                                               safelevel_vector,
+                                                                               attached_element_mesh)
+
 
         # 6. Add the element to the planning scene
-        # cm = ...
-        # scene. ..
+        cm = CollisionMesh(element.mesh, "assembly")
+        scene.append_collision_mesh(cm)
 
         # 7. Add calculated trajectories to element and set to 'planned'
         element.trajectory = [picking_trajectory, moving_trajectory, placing_trajectory]
