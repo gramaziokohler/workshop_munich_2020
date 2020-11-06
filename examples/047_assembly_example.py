@@ -65,5 +65,5 @@ for i in range(25):  # loop through the number of layers i
     assembly.add_element(new_elem_1)
     assembly.add_element(new_elem_2)
 
-assembly.to_json(os.path.join(DATA, "assembly.json"))
+assembly.to_json(os.path.join(DATA, "assembly.json"), pretty=True)
 assembly = Assembly.from_json(os.path.join(DATA, "assembly.json"))
