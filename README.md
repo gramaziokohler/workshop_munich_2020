@@ -72,6 +72,12 @@ This workshop is about robotic assembly using the COMPAS framework.
   * [COMPAS API Reference](https://compas.dev/compas/latest/api.html)
   * [COMPAS FAB API Reference](https://gramaziokohler.github.io/compas_fab/latest/reference.html)
 
+#### RPC: Remote Procedure Call
+
+* Examples of RPC calls:
+  * [Simple numpy example](examples/060_rcp_simple_example.py)
+  * [Custom function example](examples/mean_of_random_array.py)
+
 #### Robot model and ROS 1
 
 * Examples of ROS & MoveIt planning with UR10e:
