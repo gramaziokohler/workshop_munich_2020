@@ -6,11 +6,10 @@ from compas.geometry import Box, Translation
 from compas_fab.backends import RosClient
 from compas_fab.robots import CollisionMesh
 from compas_fab.robots import PlanningScene
-from compas_fab.robots.ur5 import Robot
 
 with RosClient('localhost') as client:
+    robot = client.load_robot()
 
-    robot = Robot(client)
     scene = PlanningScene(robot)
 
     brick = Box.from_width_height_depth(0.11, 0.07, 0.25)
