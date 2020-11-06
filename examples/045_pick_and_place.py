@@ -129,7 +129,6 @@ with RosClient('localhost') as client:
                                                 max_step=0.01,
                                                 attached_collision_meshes=[brick_acm]
                                               ))
-    print(trajectory3.fraction)
     assert(trajectory3.fraction == 1.)
 
     # 4. Add the brick to the planning scene
