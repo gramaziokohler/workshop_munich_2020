@@ -27,7 +27,7 @@ def show_trajectory(trajectory):
     plt.show()
 
 
-def plan_picking_motion(robot, picking_frame, safelevel_picking_frame, start_configuration, attached_brick_mesh):
+def plan_picking_motion(robot, picking_frame, safelevel_picking_frame, start_configuration, attached_element_mesh):
     """Returns a cartesian trajectory to pick an element.
 
     Parameters
@@ -36,7 +36,7 @@ def plan_picking_motion(robot, picking_frame, safelevel_picking_frame, start_con
     picking_frame : :class:`Frame`
     safelevel_picking_frame : :class:`Frame`
     start_configuration : :class:`Configuration`
-    attached_brick_mesh : :class:`AttachedCollisionMesh`
+    attached_element_mesh : :class:`AttachedCollisionMesh`
 
     Returns
     -------
@@ -54,23 +54,23 @@ def plan_picking_motion(robot, picking_frame, safelevel_picking_frame, start_con
                                                      picking_configuration,
                                                      options=dict(
                                                         max_step=0.01,
-                                                        attached_collision_meshes=[attached_brick_mesh]
+                                                        attached_collision_meshes=[attached_element_mesh]
                                                      ))
     return picking_trajectory
 
 
 
-def plan_moving_and_placing_motion(robot, brick, start_configuration, tolerance_vector, safelevel_vector, attached_brick_mesh):
-    """Returns two trajectories for moving and placing a brick.
+def plan_moving_and_placing_motion(robot, element, start_configuration, tolerance_vector, safelevel_vector, attached_element_mesh):
+    """Returns two trajectories for moving and placing an element.
 
     Parameters
     ----------
     robot : :class:`compas.robots.Robot`
-    brick : :class:`Element`
+    element : :class:`Element`
     start_configuration : :class:`Configuration`
     tolerance_vector : :class:`Vector`
     safelevel_vector : :class:`Vector`
-    attached_brick_mesh : :class:`AttachedCollisionMesh`
+    attached_element_mesh : :class:`AttachedCollisionMesh`
 
     Returns
     -------
@@ -80,7 +80,7 @@ def plan_moving_and_placing_motion(robot, brick, start_configuration, tolerance_
     tolerance_position = 0.001
     tolerance_axes = [math.radians(1)] * 3
 
-    target_frame = brick.gripping_frame.copy()
+    target_frame = element._tool_frame.copy()
     target_frame.point += tolerance_vector
 
     safelevel_target_frame = target_frame.copy()
@@ -97,7 +97,7 @@ def plan_moving_and_placing_motion(robot, brick, start_configuration, tolerance_
                                           start_configuration,
                                           options=dict(
                                             planner_id='RRT',
-                                            attached_collision_meshes=[attached_brick_mesh],
+                                            attached_collision_meshes=[attached_element_mesh],
                                             num_planning_attempts=20,
                                             allowed_planning_time=10
                                           ))
@@ -112,6 +112,6 @@ def plan_moving_and_placing_motion(robot, brick, start_configuration, tolerance_
                                                      last_configuration,
                                                      options=dict(
                                                         max_step=0.01,
-                                                        attached_collision_meshes=[attached_brick_mesh]
+                                                        attached_collision_meshes=[attached_element_mesh]
                                                      ))
     return moving_trajectory, placing_trajectory
