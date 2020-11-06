@@ -1,4 +1,5 @@
 import math
+from compas_fab.robots import Configuration
 
 def show_trajectory(trajectory):
     import matplotlib.pyplot as plt
@@ -106,7 +107,8 @@ def plan_moving_and_placing_motion(robot, element, start_configuration, toleranc
     frames = [safelevel_target_frame, target_frame]
     frames_tool0 = robot.from_tcf_to_t0cf(frames)
     # as start configuration take last trajectory's end configuration
-    last_configuration = moving_trajectory.points[-1]
+    last_configuration = Configuration(moving_trajectory.points[-1].values, moving_trajectory.points[-1].types)
+
 
     placing_trajectory = robot.plan_cartesian_motion(frames_tool0,
                                                      last_configuration,
