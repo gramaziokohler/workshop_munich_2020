@@ -39,7 +39,11 @@ picking_frame = Frame.from_data(data['picking_frame'])
 picking_configuration = Configuration.from_data(data['picking_configuration'])
 # little tolerance to not 'crash' into collision objects
 tolerance_vector = Vector.from_data(data['tolerance_vector'])
-savelevel_vector = Vector.from_data(data['savelevel_vector'])
+safelevel_vector = Vector.from_data(data['safelevel_vector'])
+safelevel_picking_frame = picking_frame.copy()
+safelevel_picking_frame.point += safelevel_vector
+picking_frame.point += tolerance_vector
+
 
 # load assembly from file
 filepath = os.path.join(DATA, "assembly.json")
@@ -82,36 +86,39 @@ with RosClient('localhost') as client:
 
     # 2. Compute picking trajectory
     # picking_trajectory = ...
-    plan_picking_motion(robot, picking_frame, savelevel_picking_frame, start_configuration, attached_brick_mesh)
+    picking_trajectory = plan_picking_motion(robot, picking_frame, safelevel_picking_frame, picking_configuration, attached_brick_mesh)
+    print(picking_trajectory.fraction)
 
     # 3. Save the last configuration from that trajectory as new start_configuration
     # start_configuration = ...
+    start_configuration = Configuration(picking_trajectory.points[-1].values, picking_trajectory.points[-1].types)
 
-    sequence = [key for key in assembly.network.vertices()]
-    exclude_keys = [
-        vkey for vkey in assembly.network.vertices_where({'is_planned': True})]
+    sequence = [key for key in assembly.network.nodes()]
+    exclude_keys = [vkey for vkey in assembly.network.nodes_where({'is_planned': True})]
     sequence = [k for k in sequence if k not in exclude_keys]
 
     for key in sequence:
         print("=" * 30 + "\nCalculating path for brick with key %d." % key)
 
-        brick = assembly.element(key)
+        element = assembly.element(key)
 
         # 4. Create an attached collision mesh and attach it to the robot's end effector.
-        T = Transformation.from_frame_to_frame(brick.gripping_frame, tool.frame)
-        brick_tool0 = brick.transformed(T)
+        T = Transformation.from_frame_to_frame(element._tool_frame, tool.frame)
+        element_tool0 = element.transformed(T)
         ee_link_name = robot.get_end_effector_link_name()
-        attached_brick_mesh = AttachedCollisionMesh(CollisionMesh(brick_tool0.mesh, 'brick'), ee_link_name)
+        attached_element_mesh = AttachedCollisionMesh(CollisionMesh(element_tool0.mesh, 'element'), ee_link_name)
 
         # 5. Calculate moving_ and placing trajectories
         # moving_trajectory, placing_trajectory = ...
+        moving_trajectory, placing_trajectory = plan_moving_and_placing_motion(robot, element, start_configuration, tolerance_vector, safelevel_vector, attached_element_mesh)
 
         # 6. Add the brick to the planning scene and wait a bit after that
         # ...
 
         # 7. Add calculated trajectories to element and set to 'planned'
-        brick.trajectory = picking_trajectory.points + moving_trajectory.points + placing_trajectory.points
-        assembly.network.set_vertex_attribute(key, 'is_planned', True)
+        element.trajectory = picking_trajectory.points + moving_trajectory.points + placing_trajectory.points
+        assembly.network.node_attribute(key, 'is_planned', True)
 
         # 8. Save assembly to json after every placed element
         assembly.to_json(PATH_TO, pretty=True)
+        break
