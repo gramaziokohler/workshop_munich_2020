@@ -101,9 +101,10 @@ This workshop is about robotic assembly using the COMPAS framework.
 * Assembly elements (e.g. bricks):
   * [Add assembly element to planning scene](examples/043_create_element_and_add_to_planning_scene.py)
   * [Attach assembly element to gripper](examples/044_add_element_as_attached_collision_object.py)
-* Pick and place examples:
-  * [Pick and place](examples/045_pick_and_place.py)
-  * [Pick and place Stack](examples/046_pick_and_place_stack.py)
+* Assembly examples:
+  * [Pick and place example](examples/045_pick_and_place.py)
+  * [Assembly example](examples/046_assembly_example.py)
+  * [Plan assembly paths](examples/047_plan_paths_assembly.py)
 
 ## Requirements
 
