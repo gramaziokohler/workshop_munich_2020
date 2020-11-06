@@ -8,5 +8,5 @@
 #
 from compas.rpc import Proxy
 
-proxy = Proxy('rpc_functions')
+proxy = Proxy('rpc_functions', python='python')
 print(proxy.mean_of_random_array())

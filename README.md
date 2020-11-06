@@ -76,7 +76,7 @@ This workshop is about robotic assembly using the COMPAS framework.
 
 * Examples of RPC calls:
   * [Simple numpy example](examples/060_rcp_simple_example.py)
-  * [Custom function example](examples/mean_of_random_array.py)
+  * [Custom function example](examples/061_rcp_custom_functions.py)
 
 #### Robot model and ROS 1
 
