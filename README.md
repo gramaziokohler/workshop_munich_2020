@@ -59,6 +59,11 @@ This workshop is about robotic assembly using the COMPAS framework.
   * [Visualize robots in Rhino](examples/024_robot_artist_rhino.py)
   * [Visualize robots in Grasshopper](examples/025_robot_artist_grasshopper.ghx)
   * [Build your own robot](examples/026_build_your_own_robot.py)
+* Basic ROS examples:
+  * [Verify connection](examples/027_check_connection.py)
+  * The canonical example of ROS: chatter nodes
+    * [Talker node](examples/028_ros_hello_world_talker.py)
+    * [Listener node](examples/029_ros_hello_world_listener.py)
 
 ### Day 2
 
@@ -67,13 +72,14 @@ This workshop is about robotic assembly using the COMPAS framework.
   * [COMPAS API Reference](https://compas.dev/compas/latest/api.html)
   * [COMPAS FAB API Reference](https://gramaziokohler.github.io/compas_fab/latest/reference.html)
 
+#### RPC: Remote Procedure Call
+
+* Examples of RPC calls:
+  * [Simple numpy example](examples/060_rcp_simple_example.py)
+  * [Custom function example](examples/061_rcp_custom_functions.py)
+
 #### Robot model and ROS 1
 
-* Basic ROS examples:
-  * [Verify connection](examples/027_check_connection.py)
-  * The cannonical example of ROS: chatter nodes
-    * [Talker node](examples/028_ros_hello_world_talker.py)
-    * [Listener node](examples/029_ros_hello_world_listener.py)
 * Examples of ROS & MoveIt planning with UR10e:
   * [Forward Kinematics](examples/030_forward_kinematics_ros_loader.py)
   * [Inverse Kinematics](examples/031_inverse_kinematics_ros_loader.py)
@@ -126,6 +132,11 @@ Create a new conda environment:
 
     (base) conda create -n tum20 python=3.8 compas_fab=0.13 python.app --yes
     (base) conda activate tum20
+
+### Install TUM assembly information model library
+
+    (tum20) python -m pip install git+https://github.com/augmentedfabricationlab/assembly_information_model@compas_upgrade#egg=assembly_information_model
+    (tum20) python -m compas_rhino.install -p assembly_information_model
 
 ### Verify installation
 

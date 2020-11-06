@@ -23,6 +23,7 @@ jobs:
       - name: Install
         run: |
           python -m pip install --no-cache-dir compas_fab==0.13.1
+          python -m pip install git+https://github.com/augmentedfabricationlab/assembly_information_model@compas_upgrade#egg=assembly_information_model
       - name: Run tests
         run: |
           python examples/023_robot_from_ros.py
@@ -40,6 +41,9 @@ jobs:
           python examples/041_attach_tool.py
           python examples/042_detach_tool.py
           python examples/042_plan_cartesian_motion_with_attached_tool.py
+          python examples/043_create_element_and_add_to_planning_scene.py
+          python examples/044_add_element_as_attached_collision_object.py
+          python examples/045_pick_and_place.py
       - name: Tear down docker containers
         run: |
           docker-compose -f "docker/docker-compose.yml" down

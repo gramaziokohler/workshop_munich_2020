@@ -12,8 +12,8 @@ from compas_fab.robots import Tool
 from compas_fab.robots import AttachedCollisionMesh
 from compas_fab.robots import CollisionMesh
 
-from assembly_information_model.assembly import Element
 from assembly_information_model.assembly import Assembly
+from assembly_information_model.assembly import Element
 
 HERE = os.path.dirname(__file__)
 DATA = os.path.abspath(os.path.join(HERE, "..", "data"))
@@ -36,7 +36,7 @@ element0 = Element.from_data(data['element0'])
 picking_frame = Frame.from_data(data['picking_frame'])
 # little tolerance to not 'crash' into collision objects
 tolerance_vector = Vector.from_data(data['tolerance_vector'])
-savelevel_vector = Vector.from_data(data['savelevel_vector'])
+safelevel_vector = Vector.from_data(data['safelevel_vector'])
 
 # define target frame
 target_frame = Frame((0.325, 0.400, 0.006), (0.000, 1.000, 0.000), (-1.000, 0.000, 0.000))
@@ -59,11 +59,11 @@ picking_configuration = Configuration.from_data(data['picking_configuration'])
 picking_frame = Frame.from_data(data['picking_frame'])
 picking_frame.point += tolerance_vector
 
-# define savelevel frames 'above' the picking- and target frames
-savelevel_picking_frame = picking_frame.copy()
-savelevel_picking_frame.point += savelevel_vector
-savelevel_target_frame = target_frame.copy()
-savelevel_target_frame.point += savelevel_vector
+# define safelevel frames 'above' the picking- and target frames
+safelevel_picking_frame = picking_frame.copy()
+safelevel_picking_frame.point += safelevel_vector
+safelevel_target_frame = target_frame.copy()
+safelevel_target_frame.point += safelevel_vector
 
 # settings for plan_motion
 tolerance_position = 0.001
@@ -73,22 +73,27 @@ with RosClient('localhost') as client:
     robot = client.load_robot()
     scene = PlanningScene(robot)
 
+    print("Removing previous brick wall and floor from scene...")
     scene.remove_collision_mesh('brick_wall')
+    scene.remove_collision_mesh('floor')
 
     # attach tool
+    print("Attaching tool...")
     robot.attach_tool(tool)
     # add tool to scene
     scene.add_attached_tool()
 
     # create an attached collision mesh to the robot's end effector.
+    print("Picking up brick...")
     ee_link_name = robot.get_end_effector_link_name()
     brick_acm = AttachedCollisionMesh(CollisionMesh(element_tool0.mesh, 'brick'), ee_link_name)
     # add the collision mesh to the scene
     scene.add_attached_collision_mesh(brick_acm)
 
     # ==========================================================================
-    # 1. Calculate a cartesian motion from the picking frame to the savelevel_picking_frame
-    frames = [picking_frame, savelevel_picking_frame]
+    # 1. Calculate a cartesian motion from the picking frame to the safelevel_picking_frame
+    print("Calculating cartesian path to safe vector above picking frame...")
+    frames = [picking_frame, safelevel_picking_frame]
 
     start_configuration = picking_configuration
     trajectory1 = robot.plan_cartesian_motion(robot.from_tcf_to_t0cf(frames),
@@ -103,10 +108,11 @@ with RosClient('localhost') as client:
     key = 0
     element = assembly.element(key)
 
-    # 2. Calulate a free-space motion to the savelevel_target_frame
-    savelevel_target_frame_tool0 = robot.from_tcf_to_t0cf(
-        [savelevel_target_frame])[0]
-    goal_constraints = robot.constraints_from_frame(savelevel_target_frame_tool0,
+    print("Calculating free-space path to safe vector above target frame...")
+    # 2. Calulate a free-space motion to the safelevel_target_frame
+    safelevel_target_frame_tool0 = robot.from_tcf_to_t0cf(
+        [safelevel_target_frame])[0]
+    goal_constraints = robot.constraints_from_frame(safelevel_target_frame_tool0,
                                                     tolerance_position,
                                                     tolerance_axes)
 
@@ -120,7 +126,8 @@ with RosClient('localhost') as client:
                                     ))
 
     # 3. Calculate a cartesian motion to the target_frame
-    frames = [savelevel_target_frame, target_frame]
+    print("Calculating cartesian path for placement...")
+    frames = [safelevel_target_frame, target_frame]
     # as start configuration take last trajectory's end configuration
     start_configuration = Configuration(trajectory2.points[-1].values, trajectory2.points[-1].types)
     trajectory3 = robot.plan_cartesian_motion(robot.from_tcf_to_t0cf(frames),
@@ -139,8 +146,9 @@ with RosClient('localhost') as client:
     element.trajectory = trajectory1.points + trajectory2.points + trajectory3.points
     assembly.network.node_attribute(key, 'is_planned', True)
     # ==========================================================================
+    print("Brick placed.")
 
     time.sleep(1)
 
 # 6. Save assembly to json
-assembly.to_json(PATH_TO)
+assembly.to_json(PATH_TO, pretty=True)

@@ -82,7 +82,7 @@ with RosClient('localhost') as client:
 
     # 2. Compute picking trajectory
     # picking_trajectory = ...
-    plan_picking_motion()
+    plan_picking_motion(robot, picking_frame, savelevel_picking_frame, start_configuration, attached_brick_mesh)
 
     # 3. Save the last configuration from that trajectory as new start_configuration
     # start_configuration = ...
