@@ -136,6 +136,7 @@ Create a new conda environment:
 
 ### Install TUM assembly information model library
 
+    (tum20) conda install git
     (tum20) python -m pip install git+https://github.com/augmentedfabricationlab/assembly_information_model@compas_upgrade#egg=assembly_information_model
     (tum20) python -m compas_rhino.install -p assembly_information_model
 
