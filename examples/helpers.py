@@ -52,8 +52,10 @@ def plan_picking_motion(robot, picking_frame, safelevel_picking_frame, start_con
 
     picking_trajectory = robot.plan_cartesian_motion(frames_tool0,
                                                      picking_configuration,
-                                                     max_step=0.01,
-                                                     attached_collision_meshes=[attached_brick_mesh])
+                                                     options=dict(
+                                                        max_step=0.01,
+                                                        attached_collision_meshes=[attached_brick_mesh]
+                                                     ))
     return picking_trajectory
 
 
@@ -93,10 +95,12 @@ def plan_moving_and_placing_motion(robot, brick, start_configuration, tolerance_
 
     moving_trajectory = robot.plan_motion(goal_constraints,
                                           start_configuration,
-                                          planner_id='RRT',
-                                          attached_collision_meshes=[attached_brick_mesh],
-                                          num_planning_attempts=20,
-                                          allowed_planning_time=10)
+                                          options=dict(
+                                            planner_id='RRT',
+                                            attached_collision_meshes=[attached_brick_mesh],
+                                            num_planning_attempts=20,
+                                            allowed_planning_time=10
+                                          ))
 
 
     frames = [safelevel_target_frame, target_frame]
@@ -106,6 +110,8 @@ def plan_moving_and_placing_motion(robot, brick, start_configuration, tolerance_
 
     placing_trajectory = robot.plan_cartesian_motion(frames_tool0,
                                                      last_configuration,
-                                                     max_step=0.01,
-                                                     attached_collision_meshes=[attached_brick_mesh])
+                                                     options=dict(
+                                                        max_step=0.01,
+                                                        attached_collision_meshes=[attached_brick_mesh]
+                                                     ))
     return moving_trajectory, placing_trajectory
