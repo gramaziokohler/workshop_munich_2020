@@ -1,20 +1,22 @@
+import argparse
+import functools
 import io
-import os
 import json
+import os
+
 import roslibpy
 from compas_fab.backends import RosClient
-import argparse
 
-from ur_online_control.communication.server import Server
 from ur_online_control.communication.client_wrapper import ClientWrapper
 from ur_online_control.communication.formatting import format_commands
 from ur_online_control.communication.msg_identifiers import *
+from ur_online_control.communication.server import Server
 
 # Locate file
 HERE = os.path.dirname(__file__)
 DATA = os.path.abspath(os.path.join(HERE, "..", "data"))
 
-def handler(request, response):
+def handler(request, response, ur=None):
     print('Received new assembly element task from user: {}'.format(request['username']))
 
     # Store request
@@ -36,12 +38,6 @@ if __name__ == '__main__':
     print('Press CTRL+C to abort')
     print('NOTE: if CTRL+C does not abort cleanly, set the env variable to FOR_DISABLE_CONSOLE_CTRL_HANDLER=1')
 
-    print('ROS Service starting...', end='\r')
-    client = RosClient()
-    service = roslibpy.Service(client, '/send_assembly_task', 'workshop_tum_msgs/SendAssemblyTask')
-    service.advertise(handler)
-    print('Service advertised.    ')
-
     print('UR Server starting...', end='\r')
     server = Server(args.server_address, args.server_port)
     server.start()
@@ -53,6 +49,11 @@ if __name__ == '__main__':
     ur.wait_for_connected()
     print('UR client connected. Ready to process tasks.')
 
+    print('ROS Service starting...', end='\r')
+    client = RosClient()
+    service = roslibpy.Service(client, '/send_assembly_task', 'workshop_tum_msgs/SendAssemblyTask')
+    service.advertise(functools.partial(handler, ur=ur))
+    print('Services advertised.    ')
 
     client.run_forever()
     client.terminate()
