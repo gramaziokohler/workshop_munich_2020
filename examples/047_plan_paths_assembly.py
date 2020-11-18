@@ -28,7 +28,7 @@ PATH_TO = os.path.join(DATA, os.path.splitext(
 os.remove(PATH_TO)
 
 # create tool from json
-filepath = os.path.join(DATA, "vacuum_gripper.json")
+filepath = os.path.join(DATA, "airpick.json")
 tool = Tool.from_json(filepath)
 # load settings (shared by GH)
 settings_file = os.path.join(DATA, "settings.json")
@@ -93,10 +93,9 @@ with RosClient('localhost') as client:
     start_configuration = Configuration(picking_trajectory.points[-1].values, picking_trajectory.points[-1].types)
 
     sequence = [key for key in assembly.network.nodes()]
+    sequence = list(range(10))
     exclude_keys = [vkey for vkey in assembly.network.nodes_where({'is_planned': True})]
     sequence = [k for k in sequence if k not in exclude_keys]
-
-    #sequence = [0, 1, 2, 4, ...]
 
     for key in sequence:
         print("=" * 30 + "\nCalculating path for element with key %d." % key)

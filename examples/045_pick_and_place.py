@@ -22,7 +22,7 @@ print(PATH_TO)
 
 
 # create tool from json
-filepath = os.path.join(DATA, "vacuum_gripper.json")
+filepath = os.path.join(DATA, "airpick.json.json")
 tool = Tool.from_json(filepath)
 
 # load settings (shared by GH)
