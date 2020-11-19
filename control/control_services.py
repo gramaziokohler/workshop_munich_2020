@@ -89,7 +89,7 @@ def joint_states_publisher(ur, topic):
             return
 
         topic.publish(roslibpy.Message({
-            'name': [],
+            'name':  ['shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint', 'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint'],
             'position': [math.radians(j) for j in current_config],
             'velocity': [0.] * len(current_config),
             'effort': [0.] * len(current_config),
@@ -132,7 +132,7 @@ if __name__ == '__main__':
     print(' [X] ROS Services')
 
     print(' [ ] ROS Topics', end='\r')
-    joint_states_topic = roslibpy.Topic(client, '/joint_states', 'sensor_msgs/JointState')
+    joint_states_topic = roslibpy.Topic(client, '/ur_joint_states', 'sensor_msgs/JointState')
     joint_states_topic.advertise()
 
     joint_states_publisher_loop = LoopingCall(joint_states_publisher, **dict(ur=ur, topic=joint_states_topic))
@@ -148,9 +148,9 @@ if __name__ == '__main__':
     storage_service.unadvertise()
     execute_service.unadvertise()
     print(' [X] ROS Services disconnection')
-    print(' [ ] ROS Topics', end='\r')
+    print(' [ ] ROS Topics disconnection', end='\r')
     joint_states_topic.unadvertise()
-    print(' [X] ROS Topics')
+    print(' [X] ROS Topics disconnection')
     time.sleep(1)
 
     print('Disconnected')
