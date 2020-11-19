@@ -70,16 +70,18 @@ def execution_handler(request, response, ur=None):
     response['message'] = 'Executed!'
     return True
 
+
 def send_trajectory_points(trajectory_points, ur):
     # TODO: Check if vel/accel make sense
     for point in trajectory_points:
-        ur.send_command_movej([pd for pd in point['positions']], v=.1, a=.1)
+        ur.send_command_movej([pd for pd in point['positions']], v=.1, r=0.0001)
     ur.wait_for_ready()
 
-def joint_states_publisher(ur, topic, frequency):
-    print('Starting joint states publisher...')
 
-    while topic.ros.is_connected:
+def joint_states_received(ur, ros, frequency):
+    print('Starting joint states received...')
+
+    while ros.is_connected:
         time.sleep(1. / frequency)
 
         try:
@@ -92,16 +94,19 @@ def joint_states_publisher(ur, topic, frequency):
             if not current_config:
                 continue
 
-            topic.publish(roslibpy.Message({
+            config_msg = {
                 'name':  ['shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint', 'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint'],
-                'position': [math.radians(j) for j in current_config],
+                'position': current_config,
                 'velocity': [0.] * len(current_config),
                 'effort': [0.] * len(current_config),
-            }))
-        except Exception as e:
-            print('[EXCEPTION] Cannot publish joint state: {}'.format(e))
+            }
 
-    print('Joint state publisher disconnected')
+            with io.open(os.path.join(DATA, 'current-config.json'), 'w') as cc:
+                json.dump(config_msg, cc, indent=2)
+        except Exception as e:
+            print('[EXCEPTION] Cannot receive joint state: {}'.format(e))
+
+    print('Joint state received disconnected')
 
 
 if __name__ == '__main__':
@@ -137,13 +142,8 @@ if __name__ == '__main__':
     execute_service = roslibpy.Service(client, '/execute_assembly_task', 'workshop_tum_msgs/AssemblyTask')
     execute_service.advertise(functools.partial(execution_handler, ur=ur))
     print(' [X] ROS Services')
-
-    print(' [ ] ROS Topics', end='\r')
-    joint_states_topic = roslibpy.Topic(client, '/ur_joint_states', 'sensor_msgs/JointState')
-    joint_states_topic.advertise()
-
-    client.on_ready(functools.partial(joint_states_publisher, ur=ur, topic=joint_states_topic, frequency=args.frequency))
-    print(' [X] ROS Topics')
+    
+    client.on_ready(functools.partial(joint_states_received, ur=ur, ros=client, frequency=args.frequency))
 
     print('Ready!')
 
@@ -154,9 +154,6 @@ if __name__ == '__main__':
     storage_service.unadvertise()
     execute_service.unadvertise()
     print(' [X] ROS Services disconnection')
-    print(' [ ] ROS Topics disconnection', end='\r')
-    joint_states_topic.unadvertise()
-    print(' [X] ROS Topics disconnection')
     time.sleep(1)
 
     print('Disconnected')
