@@ -73,9 +73,9 @@ def execution_handler(request, response, ur=None):
 def send_trajectory_points(trajectory_points, ur):
     # TODO: Check if vel/accel make sense
     for point in trajectory_points:
-        ur.send_command_movej([math.degrees(pd) for pd in point['positions']], v=10., a=10.)
-        # TODO: Check, do we need to wait_for_ready on every point?
-        ur.wait_for_ready()
+        ur.send_command_movej([pd for pd in point['positions']], v=10., a=10.)
+
+    ur.wait_for_ready()
 
 def joint_states_publisher(ur, topic):
     queue = ur.rcv_queues[msg_identifiers.MSG_CURRENT_POSE_JOINT]
