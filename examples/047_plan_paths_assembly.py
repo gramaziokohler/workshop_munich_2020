@@ -24,7 +24,7 @@ DATA = os.path.abspath(os.path.join(HERE, "..", "data"))
 PATH_TO = os.path.join(DATA, os.path.splitext(
     os.path.basename(__file__))[0] + ".json")
 
-LOAD_FROM_EXISTING = True
+LOAD_FROM_EXISTING = False
 
 # create tool from json
 filepath = os.path.join(DATA, "airpick.json")
