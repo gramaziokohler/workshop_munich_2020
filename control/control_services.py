@@ -73,8 +73,7 @@ def execution_handler(request, response, ur=None):
 def send_trajectory_points(trajectory_points, ur):
     # TODO: Check if vel/accel make sense
     for point in trajectory_points:
-        ur.send_command_movej([pd for pd in point['positions']], v=10., a=10.)
-
+        ur.send_command_movej([pd for pd in point['positions']], v=.1, a=.1)
     ur.wait_for_ready()
 
 def joint_states_publisher(ur, topic):
@@ -124,6 +123,7 @@ if __name__ == '__main__':
     print('ROS Nodes status:')
     print(' [ ] ROS Services', end='\r')
     client = RosClient()
+    #client = RosClient('192.168.10.12')
     storage_service = roslibpy.Service(client, '/store_assembly_task', 'workshop_tum_msgs/AssemblyTask')
     storage_service.advertise(storage_handler)
 
