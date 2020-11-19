@@ -17,7 +17,7 @@ def send_element_trajectories(client, assembly, element_key):
     pick_trajectory, move_trajectory, place_trajectory = element.trajectory
 
     print('[  ] Invoking ROS service...', end='\r')
-    service = roslibpy.Service(client, '/send_assembly_task', 'workshop_tum_msgs/SendAssemblyTask')
+    service = roslibpy.Service(client, '/store_assembly_task', 'workshop_tum_msgs/AssemblyTask')
     request = roslibpy.ServiceRequest(dict(
         node_id=str(element_key),
         username=username,
@@ -26,7 +26,7 @@ def send_element_trajectories(client, assembly, element_key):
         place_trajectory=client._convert_to_ros_trajectory(place_trajectory).msg
     ))
 
-    response = service.call(request, timeout=60)
+    response = service.call(request)
     print('[{}] Received service response: {}'.format('OK' if response['success'] else '!!', response['message']))
 
 
