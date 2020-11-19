@@ -1,11 +1,9 @@
 import os
-import time
 import json
 from compas.geometry import Vector
 from compas.geometry import Frame
 from compas.geometry import Transformation
 from compas.datastructures import Mesh
-import compas_fab
 from compas_fab.backends import RosClient
 from compas_fab.robots import PlanningScene
 from compas_fab.robots import Configuration
@@ -47,12 +45,11 @@ safelevel_picking_frame = picking_frame.copy()
 safelevel_picking_frame.point += safelevel_vector
 picking_frame.point += tolerance_vector
 # collision_meshes
-scene_collision_meshes = [CollisionMesh(Mesh.from_data(m), name) for m, name in zip(data['collision_meshes'], data['collision_names'])]
+scene_collision_meshes = [CollisionMesh(Mesh.from_data(m), name) for m, name in
+                          zip(data['collision_meshes'], data['collision_names'])]
 
 # load assembly from file or from existing if calculation failed at one point...
 filepath = os.path.join(DATA, "assembly.json")
-assembly = Assembly.from_json(filepath)
-
 
 if LOAD_FROM_EXISTING and os.path.isfile(PATH_TO):
     assembly = Assembly.from_json(PATH_TO)
@@ -62,7 +59,8 @@ else:
 # create an attached collision mesh to be attached to the robot's end effector.
 T = Transformation.from_frame_to_frame(element0._tool_frame, tool.frame)
 element0_tool0 = element0.transformed(T)
-attached_element_mesh = AttachedCollisionMesh(CollisionMesh(element0_tool0.mesh, 'element'), 'ee_link')
+attached_element_mesh = AttachedCollisionMesh(
+    CollisionMesh(element0_tool0.mesh, 'element'), 'ee_link')
 
 # ==============================================================================
 # From here on: fill in code, whereever you see this dots ...
@@ -80,13 +78,14 @@ with RosClient('localhost') as client:
     if not LOAD_FROM_EXISTING:
         scene.remove_collision_mesh('assembly')
 
-    # 2. Compute picking trajectory 
-    picking_trajectory = plan_picking_motion(robot, picking_frame, 
+    # 2. Compute picking trajectory
+    picking_trajectory = plan_picking_motion(robot, picking_frame,
                                              safelevel_picking_frame,
                                              picking_configuration,
                                              attached_element_mesh)
 
-    # 3. Save the last configuration from that trajectory as new start_configuration
+    # 3. Save the last configuration from that trajectory as new
+    # start_configuration
     start_configuration = Configuration(picking_trajectory.points[-1].values, picking_trajectory.points[-1].types)
 
     sequence = [key for key in assembly.network.nodes()]
@@ -101,7 +100,8 @@ with RosClient('localhost') as client:
 
         element = assembly.element(key)
 
-        # 4. Create an attached collision mesh and attach it to the robot's end effector.
+        # 4. Create an attached collision mesh and attach it to the robot's end
+        # effector.
         T = Transformation.from_frame_to_frame(element._tool_frame, tool.frame)
         element_tool0 = element.transformed(T)
         ee_link_name = robot.get_end_effector_link_name()
@@ -112,12 +112,12 @@ with RosClient('localhost') as client:
         # 5. Calculate moving_ and placing trajectories
         for i in range(10):
             try:
-                moving_trajectory, placing_trajectory = plan_moving_and_placing_motion(robot, 
-                                                                                    element,
-                                                                                    start_configuration, 
-                                                                                    tolerance_vector,
-                                                                                    safelevel_vector,
-                                                                                    attached_element_mesh)
+                moving_trajectory, placing_trajectory = plan_moving_and_placing_motion(robot,
+                                                                                       element,
+                                                                                       start_configuration,
+                                                                                       tolerance_vector,
+                                                                                       safelevel_vector,
+                                                                                       attached_element_mesh)
                 break
             except BackendError:
                 print("Trying the %d. time" % (i + 2))
@@ -125,13 +125,13 @@ with RosClient('localhost') as client:
         else:
             raise BackendError("NOT FOUND")
 
-
         # 6. Add the element to the planning scene
         cm = CollisionMesh(element.mesh, "assembly")
         scene.append_collision_mesh(cm)
 
         # 7. Add calculated trajectories to element and set to 'planned'
-        element.trajectory = [picking_trajectory, moving_trajectory, placing_trajectory]
+        element.trajectory = [picking_trajectory,
+                              moving_trajectory, placing_trajectory]
         assembly.network.node_attribute(key, 'is_planned', True)
 
         # 8. Save assembly to json after every placed element
