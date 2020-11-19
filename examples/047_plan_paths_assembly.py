@@ -12,6 +12,7 @@ from compas_fab.robots import Configuration
 from compas_fab.robots import Tool
 from compas_fab.robots import AttachedCollisionMesh
 from compas_fab.robots import CollisionMesh
+from compas_fab.backends import BackendError
 
 from assembly_information_model.assembly import Assembly
 from assembly_information_model.assembly import Element
@@ -25,7 +26,7 @@ DATA = os.path.abspath(os.path.join(HERE, "..", "data"))
 PATH_TO = os.path.join(DATA, os.path.splitext(
     os.path.basename(__file__))[0] + ".json")
 
-os.remove(PATH_TO)
+LOAD_FROM_EXISTING = True
 
 # create tool from json
 filepath = os.path.join(DATA, "airpick.json")
@@ -45,23 +46,23 @@ safelevel_vector = Vector.from_data(data['safelevel_vector'])
 safelevel_picking_frame = picking_frame.copy()
 safelevel_picking_frame.point += safelevel_vector
 picking_frame.point += tolerance_vector
-
+# collision_meshes
+scene_collision_meshes = [CollisionMesh(Mesh.from_data(m), name) for m, name in zip(data['collision_meshes'], data['collision_names'])]
 
 # load assembly from file or from existing if calculation failed at one point...
 filepath = os.path.join(DATA, "assembly.json")
+assembly = Assembly.from_json(filepath)
 
-if os.path.isfile(PATH_TO):
+
+if LOAD_FROM_EXISTING and os.path.isfile(PATH_TO):
     assembly = Assembly.from_json(PATH_TO)
-    clear_planning_scene = False
 else:
     assembly = Assembly.from_json(filepath)
-    clear_planning_scene = True
 
 # create an attached collision mesh to be attached to the robot's end effector.
 T = Transformation.from_frame_to_frame(element0._tool_frame, tool.frame)
 element0_tool0 = element0.transformed(T)
-attached_element_mesh = AttachedCollisionMesh(
-    CollisionMesh(element0_tool0.mesh, 'element'), 'ee_link')
+attached_element_mesh = AttachedCollisionMesh(CollisionMesh(element0_tool0.mesh, 'element'), 'ee_link')
 
 # ==============================================================================
 # From here on: fill in code, whereever you see this dots ...
@@ -74,13 +75,10 @@ with RosClient('localhost') as client:
     robot.attach_tool(tool)
 
     # 1. Add a collison mesh to the planning scene: floor, desk, etc.
-    mesh = Mesh.from_stl(compas_fab.get('planning_scene/floor.stl'))
-    cm = CollisionMesh(mesh, 'floor')
-    scene.add_collision_mesh(cm)
-
-    if clear_planning_scene:
+    for cm in scene_collision_meshes:
+        scene.add_collision_mesh(cm)
+    if not LOAD_FROM_EXISTING:
         scene.remove_collision_mesh('assembly')
-        time.sleep(0.1)
 
     # 2. Compute picking trajectory 
     picking_trajectory = plan_picking_motion(robot, picking_frame, 
@@ -88,14 +86,15 @@ with RosClient('localhost') as client:
                                              picking_configuration,
                                              attached_element_mesh)
 
-
     # 3. Save the last configuration from that trajectory as new start_configuration
     start_configuration = Configuration(picking_trajectory.points[-1].values, picking_trajectory.points[-1].types)
 
     sequence = [key for key in assembly.network.nodes()]
     sequence = list(range(10))
+    print(sequence)
     exclude_keys = [vkey for vkey in assembly.network.nodes_where({'is_planned': True})]
     sequence = [k for k in sequence if k not in exclude_keys]
+    print(sequence)
 
     for key in sequence:
         print("=" * 30 + "\nCalculating path for element with key %d." % key)
@@ -111,12 +110,20 @@ with RosClient('localhost') as client:
         scene.add_attached_collision_mesh(attached_element_mesh)
 
         # 5. Calculate moving_ and placing trajectories
-        moving_trajectory, placing_trajectory = plan_moving_and_placing_motion(robot, 
-                                                                               element,
-                                                                               start_configuration, 
-                                                                               tolerance_vector,
-                                                                               safelevel_vector,
-                                                                               attached_element_mesh)
+        for i in range(10):
+            try:
+                moving_trajectory, placing_trajectory = plan_moving_and_placing_motion(robot, 
+                                                                                    element,
+                                                                                    start_configuration, 
+                                                                                    tolerance_vector,
+                                                                                    safelevel_vector,
+                                                                                    attached_element_mesh)
+                break
+            except BackendError:
+                print("Trying the %d. time" % (i + 2))
+                continue
+        else:
+            raise BackendError("NOT FOUND")
 
 
         # 6. Add the element to the planning scene

@@ -97,7 +97,7 @@ def plan_moving_and_placing_motion(robot, element, start_configuration, toleranc
     moving_trajectory = robot.plan_motion(goal_constraints,
                                           start_configuration,
                                           options=dict(
-                                            planner_id='RRT',
+                                            planner_id='SBL',
                                             attached_collision_meshes=[attached_element_mesh],
                                             num_planning_attempts=20,
                                             allowed_planning_time=10
