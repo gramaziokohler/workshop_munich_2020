@@ -77,25 +77,32 @@ def send_trajectory_points(trajectory_points, ur):
 
     ur.wait_for_ready()
 
-def joint_states_publisher(ur, topic):
-    queue = ur.rcv_queues[msg_identifiers.MSG_CURRENT_POSE_JOINT]
+def joint_states_publisher(ur, topic, frequency):
+    print('Starting joint states publisher...')
 
-    try:
-        if queue.empty():
-            return
+    while topic.ros.is_connected:
+        time.sleep(1. / frequency)
 
-        current_config = queue.get_nowait()
-        if not current_config:
-            return
+        try:
+            queue = ur.rcv_queues[msg_identifiers.MSG_CURRENT_POSE_JOINT]
 
-        topic.publish(roslibpy.Message({
-            'name':  ['shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint', 'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint'],
-            'position': [math.radians(j) for j in current_config],
-            'velocity': [0.] * len(current_config),
-            'effort': [0.] * len(current_config),
-        }))
-    except Exception as e:
-        print('[EXCEPTION] Cannot publish joint state: {}'.format(e))
+            if queue.empty():
+                continue
+
+            current_config = queue.get_nowait()
+            if not current_config:
+                continue
+
+            topic.publish(roslibpy.Message({
+                'name':  ['shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint', 'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint'],
+                'position': [math.radians(j) for j in current_config],
+                'velocity': [0.] * len(current_config),
+                'effort': [0.] * len(current_config),
+            }))
+        except Exception as e:
+            print('[EXCEPTION] Cannot publish joint state: {}'.format(e))
+
+    print('Joint state publisher disconnected')
 
 
 if __name__ == '__main__':
@@ -135,8 +142,7 @@ if __name__ == '__main__':
     joint_states_topic = roslibpy.Topic(client, '/ur_joint_states', 'sensor_msgs/JointState')
     joint_states_topic.advertise()
 
-    joint_states_publisher_loop = LoopingCall(joint_states_publisher, **dict(ur=ur, topic=joint_states_topic))
-    joint_states_publisher_loop.start(1 / args.frequency)
+    client.on_ready(functools.partial(joint_states_publisher, ur=ur, topic=joint_states_topic, frequency=args.frequency))
     print(' [X] ROS Topics')
 
     print('Ready!')
