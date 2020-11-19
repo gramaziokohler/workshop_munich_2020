@@ -17,6 +17,20 @@ from ur_online_control.communication.server import Server
 HERE = os.path.dirname(__file__)
 DATA = os.path.abspath(os.path.join(HERE, "..", "data"))
 
+class PickAndPlaceTask(object):
+    def __init__(self, ur):
+        self.ur = ur
+
+    def send_trajectory(self, name, points):
+        print(' - Sending trajectory {}'.format(name))
+        send_trajectory_points(points, self.ur)
+
+    def set_gripper(self, value):
+        print(' - Setting gripper {}'.format('ON' if value else 'OFF'))
+        self.ur.send_command_airpick(value)
+        self.ur.wait_for_ready()
+
+
 def storage_handler(request, response):
     print('Received new assembly element task from user: {}'.format(request['username']))
 
@@ -28,45 +42,36 @@ def storage_handler(request, response):
     response['message'] = 'Yay!'
     return True
 
+
 def execution_handler(request, response, ur=None):
+    pick_trajectory = request['pick_trajectory']['points']
+    move_trajectory = request['move_trajectory']['points']
+    place_trajectory = request['place_trajectory']['points']
 
-    # start pickup
-    print(' - Sending PICK trajectory')
-    send_trajectory_points(request['pick_trajectory']['points'], ur)
-    # set gripper ON
-    print(' - Setting gripper ON')
-    ur.send_command_airpick(True)
-    ur.wait_for_ready()
-    # send reversal
-    print(' - Sending PICK trajectory reversed')
-    send_trajectory_points(reversed(request['pick_trajectory']['points']), ur)
+    task = PickAndPlaceTask(ur)
+    task.send_trajectory('PICK', pick_trajectory)
+    task.set_gripper(True)
+    task.send_trajectory('REVERSED PICK', reversed(pick_trajectory))
 
-    # send kinematic trajectory
-    print(' - Sending MOVE trajectory')
-    send_trajectory_points(request['move_trajectory']['points'], ur)
+    task.send_trajectory('MOVE', move_trajectory)
 
-    # start place
-    print(' - Sending PLACE trajectory')
-    send_trajectory_points(request['place_trajectory']['points'], ur)
-    # set gripper OFF
-    print(' - Setting gripper OFF')
-    ur.send_command_airpick(False)
-    ur.wait_for_ready()
-    # send reversal
-    print(' - Sending PLACE trajectory reversed')
-    send_trajectory_points(reversed(request['place_trajectory']['points']), ur)
+    task.send_trajectory('PLACE', place_trajectory)
+    task.set_gripper(False)
+    task.send_trajectory('REVERSED PLACE', reversed(place_trajectory))
 
-    # go back with a reversed kinematic trajectory
-    print(' - Sending MOVE trajectory reversed')
-    send_trajectory_points(reversed(request['move_trajectory']['points']), ur)
+    task.send_trajectory('MOVE BACK TO START', reversed(move_trajectory))
+
+    print('Task execution completed!')
 
     response['success'] = True
     response['message'] = 'Executed!'
     return True
 
 def send_trajectory_points(trajectory_points, ur):
+    # TODO: Check if vel/accel make sense
     for point in trajectory_points:
-        ur.send_command_movej([math.radians(pd) for pd in point['positions']], v=10., a=10.)
+        ur.send_command_movej([math.degrees(pd) for pd in point['positions']], v=10., a=10.)
+        # TODO: Check, do we need to wait_for_ready on every point?
         ur.wait_for_ready()
 
 def joint_states_publisher(ur, topic):
