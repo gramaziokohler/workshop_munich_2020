@@ -122,7 +122,7 @@ if __name__ == '__main__':
 
     print('ROS Nodes status:')
     print(' [ ] ROS Services', end='\r')
-    client = RosClient()
+    client = RosClient('localhost', 80)
     #client = RosClient('192.168.10.12')
     storage_service = roslibpy.Service(client, '/store_assembly_task', 'workshop_tum_msgs/AssemblyTask')
     storage_service.advertise(storage_handler)
