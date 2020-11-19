@@ -4,6 +4,7 @@ import io
 import json
 import math
 import os
+import time
 
 import roslibpy
 from compas_fab.backends import RosClient
@@ -44,6 +45,8 @@ def storage_handler(request, response):
 
 
 def execution_handler(request, response, ur=None):
+    print('Task execution starting...\nElement key={}, User={}'.format(request['node_id'], request['username']))
+
     pick_trajectory = request['pick_trajectory']['points']
     move_trajectory = request['move_trajectory']['points']
     place_trajectory = request['place_trajectory']['points']
@@ -139,6 +142,19 @@ if __name__ == '__main__':
     print('Ready!')
 
     client.run_forever()
+
+    print('ROS Nodes status:')
+    print(' [ ] ROS Services disconnection', end='\r')
+    storage_service.unadvertise()
+    execute_service.unadvertise()
+    print(' [X] ROS Services disconnection')
+    print(' [ ] ROS Topics', end='\r')
+    joint_states_topic.unadvertise()
+    print(' [X] ROS Topics')
+    time.sleep(1)
+
+    print('Disconnected')
+
     client.terminate()
 
     ur.quit()
