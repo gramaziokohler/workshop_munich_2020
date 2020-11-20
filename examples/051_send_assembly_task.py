@@ -84,8 +84,8 @@ if __name__ == '__main__':
     print('[OK] Planned sequence: {}'.format(planned_elemement_keys))
 
     # Connect client
-    print('[  ] Connecting to ROS {}:{}'.format(args.ros_host, args.ros_port), end='\r')
-    with RosClient(host=args.ros_host, port=args.ros_port) as client:
+    print('[  ] Connecting to ROS {}:{}'.format(args.ros_host, int(args.ros_port)), end='\r')
+    with RosClient(host=args.ros_host, port=int(args.ros_port)) as client:
         print('[OK] Connected to ROS: \n')
 
         # Start UI loop to send elements
