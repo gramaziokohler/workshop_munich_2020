@@ -52,9 +52,9 @@ def execution_handler(request, response, ur=None):
     place_trajectory = request['place_trajectory']['points']
 
     task = PickAndPlaceTask(ur)
-    task.send_trajectory('PICK', reversed(pick_trajectory))
+    task.send_trajectory('REVERSED PICK', reversed(pick_trajectory))
     task.set_gripper(True)
-    task.send_trajectory('REVERSED PICK', pick_trajectory)
+    task.send_trajectory('PICK', pick_trajectory)
 
     task.send_trajectory('MOVE', move_trajectory)
 
