@@ -51,8 +51,11 @@ def input_non_zero_number(message):
             continue
 
 if __name__ == '__main__':
-    # Settings
-    ROS_HOST, ROS_PORT = 'localhost', 9090
+    import argparse
+    parser = argparse.ArgumentParser(description='Joint states publisher')
+    parser.add_argument('-r', '--ros-host', help='ROS host', default='localhost')
+    parser.add_argument('-p', '--ros-port', help='ROS port', default=9090)
+    args = parser.parse_args()
 
     # Locate file
     HERE = os.path.dirname(__file__)
@@ -81,8 +84,8 @@ if __name__ == '__main__':
     print('[OK] Planned sequence: {}'.format(planned_elemement_keys))
 
     # Connect client
-    print('[  ] Connecting to ROS {}:{}'.format(ROS_HOST, ROS_PORT), end='\r')
-    with RosClient(host=ROS_HOST, port=ROS_PORT) as client:
+    print('[  ] Connecting to ROS {}:{}'.format(args.ros_host, args.ros_port), end='\r')
+    with RosClient(host=args.ros_host, port=args.ros_port) as client:
         print('[OK] Connected to ROS: \n')
 
         # Start UI loop to send elements
