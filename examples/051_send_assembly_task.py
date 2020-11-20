@@ -18,6 +18,8 @@ def send_element_trajectories(client, assembly, element_key):
 
     print('[  ] Invoking ROS service...', end='\r')
     service = roslibpy.Service(client, '/store_assembly_task', 'workshop_tum_msgs/AssemblyTask')
+    # service = roslibpy.Service(client, '/execute_assembly_task', 'workshop_tum_msgs/AssemblyTask')
+
     request = roslibpy.ServiceRequest(dict(
         node_id=str(element_key),
         username=username,
@@ -85,7 +87,7 @@ if __name__ == '__main__':
 
     # Connect client
     print('[  ] Connecting to ROS {}:{}'.format(args.ros_host, args.ros_port), end='\r')
-    with RosClient(host=args.ros_host, port=args.ros_port) as client:
+    with RosClient(host=args.ros_host, port=int(args.ros_port)) as client:
         print('[OK] Connected to ROS: \n')
 
         # Start UI loop to send elements

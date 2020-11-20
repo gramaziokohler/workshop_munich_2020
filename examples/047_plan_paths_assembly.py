@@ -124,8 +124,8 @@ with RosClient('localhost') as client:
             except BackendError:
                 print("Trying the %d. time" % (i + 2))
                 continue
-        else:
-            raise BackendError("NOT FOUND")
+            else:
+                raise BackendError("NOT FOUND")
 
         # 6. Add the element to the planning scene
         cm = CollisionMesh(element.mesh, "assembly")
