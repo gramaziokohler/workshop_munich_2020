@@ -24,7 +24,7 @@ DATA = os.path.abspath(os.path.join(HERE, "..", "data"))
 PATH_TO = os.path.join(DATA, os.path.splitext(
     os.path.basename(__file__))[0] + ".json")
 
-LOAD_FROM_EXISTING = True
+LOAD_FROM_EXISTING = False
 
 # create tool from json
 filepath = os.path.join(DATA, "airpick.json")
@@ -118,8 +118,11 @@ with RosClient('localhost') as client:
                                                                                        tolerance_vector,
                                                                                        safelevel_vector,
                                                                                        attached_element_mesh)
+                
                 if placing_trajectory.fraction != 1:
                     raise BackendError("Cartesian path not working")
+                else:
+                    break
 
             except BackendError:
                 print("Trying the %d. time" % (i + 2))
