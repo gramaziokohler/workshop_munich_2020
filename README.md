@@ -78,7 +78,7 @@ This workshop is about robotic assembly using the COMPAS framework.
   * [Simple numpy example](examples/060_rcp_simple_example.py)
   * [Custom function example](examples/061_rcp_custom_functions.py)
 
-#### Robot model and ROS 1
+#### Robot model and ROS 2
 
 * Examples of ROS & MoveIt planning with UR10e:
   * [Forward Kinematics](examples/030_forward_kinematics_ros_loader.py)
@@ -106,6 +106,19 @@ This workshop is about robotic assembly using the COMPAS framework.
   * [Assembly example](examples/046_assembly_example.py)
   * [Plan assembly paths](examples/047_plan_paths_assembly.py)
 
+### Day 3
+
+* Assembly examples with real robot:
+  * [Assembly Playground](examples/050_robot_assembly.ghx)
+  * [Send assembly tasks to robot](examples/051_send_assembly_task.py)
+  * [Subscribe to robot updates](examples/052_subscribe_joint_states.py)
+  * [Visualize robot updates in Grasshopper](examples/052_subscribe_joint_states_visualization.ghx)
+  * [`Frame` in `Frame`](examples/003_frame_in_frame.py)
+* Robot control:
+  * [Control services](control/control_services.py)
+  * [Joint State Publisher](control/joint_state_publisher.py)
+
+![Diagram](robot-diagram.png)
 ## Requirements
 
 * Minimum OS: Windows 10 Pro or Mac OS Sierra 10.12
