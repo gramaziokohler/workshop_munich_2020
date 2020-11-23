@@ -113,7 +113,6 @@ This workshop is about robotic assembly using the COMPAS framework.
   * [Send assembly tasks to robot](examples/051_send_assembly_task.py)
   * [Subscribe to robot updates](examples/052_subscribe_joint_states.py)
   * [Visualize robot updates in Grasshopper](examples/052_subscribe_joint_states_visualization.ghx)
-  * [`Frame` in `Frame`](examples/003_frame_in_frame.py)
 * Robot control:
   * [Control services](control/control_services.py)
   * [Joint State Publisher](control/joint_state_publisher.py)
