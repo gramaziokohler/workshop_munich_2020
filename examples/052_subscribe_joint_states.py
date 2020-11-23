@@ -15,8 +15,7 @@ if __name__ == '__main__':
     parser.add_argument('-p', '--ros-port', help='ROS port', default=9090)
     args = parser.parse_args()
 
-
-    client = RosClient(host=args.ros_host, port=args.ros_port)
+    client = RosClient(host=args.ros_host, port=int(args.ros_port))
 
     # Subscribe to joint state updates
     listener = Topic(client, '/ur_joint_states', 'sensor_msgs/JointState')

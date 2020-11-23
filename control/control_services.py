@@ -111,8 +111,10 @@ def joint_states_received(ur, ros, frequency):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Send assembly task service')
+    parser.add_argument('-r', '--ros-host', help='ROS host', default='localhost')
+    parser.add_argument('-p', '--ros-port', help='ROS port', default=9090)
     parser.add_argument('-s', '--server-address', help='server address', default='127.0.0.1')
-    parser.add_argument('-p', '--server-port', help='server port', default=30003)
+    parser.add_argument('-t', '--server-port', help='server port', default=30003)
     parser.add_argument('-u', '--ur-address', help='UR robot address', default='127.0.0.1')
     parser.add_argument('-f', '--frequency', help='Frequency to publish joint states (in HZ)', default=5)
     args = parser.parse_args()
@@ -134,15 +136,14 @@ if __name__ == '__main__':
 
     print('ROS Nodes status:')
     print(' [ ] ROS Services', end='\r')
-    client = RosClient('localhost', 80)
-    #client = RosClient('192.168.10.12')
+    client = RosClient(host=args.ros_host, port=int(args.ros_port))
     storage_service = roslibpy.Service(client, '/store_assembly_task', 'workshop_tum_msgs/AssemblyTask')
     storage_service.advertise(storage_handler)
 
     execute_service = roslibpy.Service(client, '/execute_assembly_task', 'workshop_tum_msgs/AssemblyTask')
     execute_service.advertise(functools.partial(execution_handler, ur=ur))
     print(' [X] ROS Services')
-    
+
     client.on_ready(functools.partial(joint_states_received, ur=ur, ros=client, frequency=args.frequency))
 
     print('Ready!')

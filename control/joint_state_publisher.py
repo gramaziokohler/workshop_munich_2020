@@ -32,6 +32,8 @@ def joint_states_publisher(topic, frequency):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Joint states publisher')
+    parser.add_argument('-r', '--ros-host', help='ROS host', default='localhost')
+    parser.add_argument('-p', '--ros-port', help='ROS port', default=9090)
     parser.add_argument('-f', '--frequency', help='Frequency to publish joint states (in HZ)', default=5)
     args = parser.parse_args()
 
@@ -40,8 +42,7 @@ if __name__ == '__main__':
     print('NOTE: if CTRL+C does not abort cleanly, set the env variable to FOR_DISABLE_CONSOLE_CTRL_HANDLER=1')
 
     print('ROS Nodes status:')
-    client = RosClient('localhost', 80)
-    #client = RosClient('192.168.10.12')
+    client = RosClient(host=args.ros_host, port=int(args.ros_port))
 
     print(' [ ] ROS Topics', end='\r')
     joint_states_topic = roslibpy.Topic(client, '/ur_joint_states', 'sensor_msgs/JointState')
